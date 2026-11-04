@@ -22,6 +22,6 @@ std:: string StandardizeName(const std:: string& name){
         c= static_cast<char>(std:: toupper(static_cast<unsigned char>(c)));
     }
 
-    return result
+    return result;
 }
 
