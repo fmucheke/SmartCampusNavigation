@@ -25,3 +25,21 @@ std:: string StandardizeName(const std:: string& name){
     return result;
 }
 
+std:: string TrimWhiteSpace(const std:: string& name){
+    size_t start= 0;
+
+    while (start< name.length() && std:: isspace(static_cast<unsigned char>(name[start]))){
+        start++;
+    }
+
+    size_t end= name.length();
+
+    while (end> start && std:: isspace(static_cast<unsigned char>(name[end-1]))){
+        end--;
+    }
+
+    std::string result= name.substr(start, end-start);
+
+    return result;
+}
+
