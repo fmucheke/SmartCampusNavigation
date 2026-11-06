@@ -12,8 +12,8 @@
 // This stores each department with its parent and childrens.
 struct DepartmentNode {
     std::string name;                       
-    DepartmentNode* parent;                 // null if its root
-    std::vector<DepartmentNode*> children;  // stores all the child departments
+    DepartmentNode* parent;                
+    std::vector<DepartmentNode*> children; 
 
     // This creates a department node.
     explicit DepartmentNodconst std::string& deptName,
@@ -21,7 +21,7 @@ struct DepartmentNode {
    : name(deptName), parent(parentNode) {}
 };
 
-// This class is used to manage all the departments in tree.
+
 class DepartmentTree {
 public:
     // Creates a empty tree.
@@ -41,7 +41,7 @@ public:
             int& accepted, int& rejected);
 
     // TREE-3: Adds department to the tree.
-    // If tree is empty, first department will be the root.
+    
  bool addDepartment(const std::string& name,
               const std::string& parentName,
       std::string& errorReason);
