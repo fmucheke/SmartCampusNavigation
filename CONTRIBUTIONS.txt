@@ -1,0 +1,32 @@
+Team Contributions
+
+Member A – Urisha Shrestha
+Assigned Modules:
+
+- Facility records and Facility class
+- Custom hash table
+- Facility ID search
+- Facility name and category search
+- Facility category report
+
+Member B – Franklin Mucheke
+Assigned Modules:
+
+- Campus graph
+- BFS reachability
+- Shortest path
+- Connectivity report
+
+Member C – Samriddi Upreti
+Assigned Modules:
+
+- Department tree
+- Tree traversals
+- Department statistics
+
+Shared Work – All Team Members
+- File-loading utilities
+- Main menu and program integration
+- Testing and debugging
+- Project documentation
+- Code review and collaboration

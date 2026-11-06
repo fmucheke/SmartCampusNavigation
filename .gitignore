@@ -1,0 +1,22 @@
+# Compiled binaries and object files
+*.exe
+*.o
+*.obj
+*.out
+*.a
+*.so
+campus
+
+# Build directories
+build/
+bin/
+
+# Editor and IDE files
+.vscode/
+.idea/
+.vs/
+
+# Temporary files
+*.log
+*.tmp
+.DS_Store
