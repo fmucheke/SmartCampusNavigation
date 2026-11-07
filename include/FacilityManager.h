@@ -13,7 +13,7 @@ private:
     // Stores all accepted facility records
     std::vector<Facility> facilities;
 
-    // Custom hash table for searching facilities by ID
+    // Custom hash table for facility ID searches
     HashTable hashTable;
 
     // Helper functions
@@ -21,28 +21,28 @@ private:
     std::string normalize(std::string text) const;
 
 public:
-    // Load facility records from a file
+    // Load facilities from a text file
     void loadFacilities(const std::string& filePath);
 
     // Display all facilities
     void displayAll() const;
 
-    // Search facilities by ID using the custom hash table
+    // Search by facility ID
     void searchByID(const std::string& id) const;
 
     // Search by complete facility name
     void searchByName(const std::string& name) const;
 
-    // Search by facility category
+    // Search by category
     void searchByCategory(const std::string& category) const;
 
-    // Display facility category statistics
+    // Generate category statistics
     void categoryReport() const;
 
-    // Return the number of accepted facilities
+    // Return total number of facilities
     int getFacilityCount() const;
 
-    // Display hash table information
+    // Display hash table statistics
     void displayHashStats() const;
 };
 
