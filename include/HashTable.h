@@ -1,7 +1,7 @@
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
 
-#include "facility.h"
+#include "Facility.h"
 #include <vector>
 #include <string>
 
