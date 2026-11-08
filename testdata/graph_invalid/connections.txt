@@ -1,0 +1,9 @@
+# Connection validation test
+Library|Science Building
+Science Building|Gym
+Science Building|Library
+Library|Library
+Library|Unknown Building
+Library
+Library|Gym|Observatory
+Gym|
