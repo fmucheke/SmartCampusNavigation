@@ -37,4 +37,3 @@ void Facility::display() const {
     std::cout << "Building: " << buildingName << std::endl;
     std::cout << "Category: " << category << std::endl;
 }
-
