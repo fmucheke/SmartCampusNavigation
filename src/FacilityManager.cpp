@@ -120,8 +120,8 @@ void FacilityManager::loadFacilities(
             continue;
         }
 
-        // The official building spelling will be added
-        // after CampusGraph provides GetBuildingName()
+        // Use the official building name from CampusGraph
+        building = campusGraph.GetBuildingName(building);
 
         // Check for duplicate facility IDs
         if (hashTable.search(id) != nullptr) {
@@ -148,9 +148,12 @@ void FacilityManager::loadFacilities(
         accepted++;
     }
 
-    // Show the loading summary and hash statistics together
-    std::cout << "\nFacilities accepted: " << accepted << "\n";
-    std::cout << "Facilities rejected: " << rejected << "\n";
+    // Show loading summary and hash statistics
+    std::cout << "\nFacilities accepted: "
+              << accepted << "\n";
+
+    std::cout << "Facilities rejected: "
+              << rejected << "\n";
 
     displayHashStats();
 }
@@ -160,19 +163,25 @@ void FacilityManager::displayAll() const {
 
     if (facilities.empty()) {
         std::cout << "No facilities available.\n";
+        std::cout << "Total facilities: 0\n";
         return;
     }
+
+    std::cout << "\nAll Campus Facilities:\n\n";
 
     for (const Facility& facility : facilities) {
         facility.display();
         std::cout << "--------------------\n";
     }
+
+    std::cout << "Total facilities: "
+              << getFacilityCount() << "\n";
 }
 
 // Search for a facility using its ID
 void FacilityManager::searchByID(const std::string& id) const {
 
-    // Remove spaces and convert the ID to uppercase
+    // Remove spaces and normalize the ID
     std::string normalizedID = normalize(id);
 
     // Check the ID before searching
@@ -199,9 +208,10 @@ void FacilityManager::searchByName(
     const std::string& name) const {
 
     bool found = false;
+    std::string searchName = normalize(name);
 
     for (const Facility& facility : facilities) {
-        if (normalize(facility.getName()) == normalize(name)) {
+        if (normalize(facility.getName()) == searchName) {
             facility.display();
             std::cout << "--------------------\n";
             found = true;
@@ -218,10 +228,11 @@ void FacilityManager::searchByCategory(
     const std::string& category) const {
 
     bool found = false;
+    std::string searchCategory = normalize(category);
 
     for (const Facility& facility : facilities) {
         if (normalize(facility.getCategory()) ==
-            normalize(category)) {
+            searchCategory) {
 
             facility.display();
             std::cout << "--------------------\n";
@@ -292,7 +303,8 @@ void FacilityManager::categoryReport() const {
     }
 
     std::cout << "----------------------------------------\n";
-    std::cout << "Total facilities: " << total << "\n";
+    std::cout << "Total facilities: "
+              << total << "\n";
 }
 
 // Return the total number of facilities
