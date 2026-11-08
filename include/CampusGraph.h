@@ -22,6 +22,8 @@ public:
     void DisplayGraph() const;
     void DisplayDegrees() const;
     void BFS(const std:: string& start) const;
+    string GetBuildingName(const std::string& name) const;
+
 
 };
 #endif
