@@ -1,1 +1,101 @@
+DESIGN DOCUMENT - Smart Campus Navigation (Milestone 1)
+Team: Urisha Shrestha, Franklin Mucheke, Samriddi Upreti
 
+1. WHAT THE PROGRAM DOES
+The program reads four text files: buildings, connections, facilities, and
+departments. It reads them from the data folder, or from another folder if the
+user types one when starting the program. The files are loaded in this order:
+buildings, connections, facilities, departments. After each file the program
+prints how many lines were accepted and how many were rejected. For every
+rejected line it prints a warning with the file name, line number, and reason.
+
+2. HASH TABLE (finding a facility by its ID)
+The hash table is used to find a facility quickly by its ID. We wrote it
+ourselves. We did not use std::hash or any library hash table.
+
+Before using an ID, the program removes extra spaces and changes it to
+uppercase. So f004 and F004 are the same ID. A good ID is the letter F and
+exactly three digits, like F004.
+
+Hash function:
+    start with h = 0
+    for each character c in the ID:
+        h = (h * 31 + c) mod capacity
+    the final h is the bucket number
+The bucket number is always between 0 and capacity - 1.
+
+Collision strategy: separate chaining. Each bucket is a small list (a vector),
+so many facilities can share one bucket. We chose this because the lists can
+keep growing, so there is no limit on how many facilities we can store. It is
+also easy to write and easy to check for duplicate IDs.
+
+What counts as a collision: when a facility is accepted and its bucket already
+has another facility in it. If a facility is rejected because its ID is a
+duplicate, it does not add to the collision count.
+
+Capacity: the table starts with 101 buckets. This number is set in the
+HashTable constructor (default 101). Since we use chaining, the table can
+never be full, so no facility is rejected because of space. We do not resize
+the table.
+
+Searching by ID uses the hash table only. It does not look through all the
+facilities one by one. There are three results: wrong format, correct format
+but not found, and found.
+
+Collision test: the folder testdata/collision has IDs that land in the same
+bucket when the capacity is 101. For example, F001 and F039 both go to
+bucket 16.
+
+3. CAMPUS GRAPH (buildings and walkways)
+We store the graph as an adjacency list. CampusGraph has a list of building
+names (in the same order as buildings.txt) and, for each building, a list of
+the buildings next to it.
+Why we chose it: it grows as needed, it uses little memory, and it keeps the
+neighbors in the order they were added, which BFS needs.
+
+A walkway works both ways. When a connection is added, each building is put in
+the other building's list, but the connection is counted only once. We reject
+connections from a building to itself and duplicates (including A-B and B-A).
+We never sort the neighbors.
+
+BFS uses a queue and a visited list. A building is marked visited when it is
+put in the queue. The program saves each building's distance from the start.
+The same graph is used for displaying, counting degrees, and BFS.
+
+4. DEPARTMENT TREE
+The departments are stored in a general tree, which means a department can
+have any number of children. Each DepartmentNode has a name, a pointer to its
+parent, and a vector of pointers to its children. Children stay in the order
+they were added.
+
+The first good department is the root, and its parent must be NONE. Every
+other department needs a parent that was added before it. Department names
+must be different, ignoring uppercase and lowercase, and we keep the spelling
+from the first one.
+
+When adding from the menu: if the tree is empty, the new department becomes
+the root and the program does not ask for a parent. Otherwise the parent must
+already exist. Departments added from the menu stay in memory only, and
+departments.txt is never changed.
+
+The hierarchy is printed in preorder with 4 spaces for each level. The
+preorder option prints the names in one line with no spaces for levels.
+The destructor deletes every node.
+
+5. MAIN CLASSES AND FILES
+Facility          one facility (ID, name, building, category)
+FacilityManager   loads facilities.txt, keeps them in file order, owns the
+                  hash table, and handles ID search and display
+HashTable         our own hash table using separate chaining
+CampusGraph       buildings, adjacency list, degrees, and BFS
+GraphLoader       reads buildings.txt and connections.txt and checks them
+DepartmentNode    one department in the tree
+DepartmentTree    loads, adds, searches, and prints the department tree
+FileUtils         helper functions to trim spaces and change to uppercase
+main.cpp          loads the files, shows the menu, and calls the classes
+
+6. WHO DID WHAT
+Urisha: Facility, FacilityManager, HashTable
+Franklin: CampusGraph, GraphLoader, FileUtils, BFS
+Samriddi: DepartmentNode, DepartmentTree, department menu options
+Everyone: main menu, testing, documentation

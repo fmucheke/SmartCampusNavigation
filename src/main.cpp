@@ -6,7 +6,7 @@
 #include "GraphLoader.h"
 #include "FileUtils.h"
 
-
+#include "DepartmentTree.h"
 using namespace std;
 
 // This function handles the facility menu
@@ -20,9 +20,9 @@ void facilityMenu(FacilityManager& manager) {
         cout << "\n========== Facility Management ==========\n";
         cout << "1. Display All Facilities\n";
         cout << "2. Search Facility by ID\n";
-        cout << "3. Search Facility by Name\n";
-        cout << "4. Search Facility by Category\n";
-        cout << "5. Facility Category Report\n";
+       // cout << "3. Search Facility by Name\n";//final
+       // cout << "4. Search Facility by Category\n";//final
+      //  cout << "5. Facility Category Report\n";// final 
         cout << "6. Hash Table Statistics\n";
         cout << "0. Return to Main Menu\n";
         cout << "=========================================\n";
@@ -39,7 +39,7 @@ void facilityMenu(FacilityManager& manager) {
 
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        // Run the option selected by the user
+        
         switch (choice) {
 
             case 1:
@@ -54,7 +54,7 @@ void facilityMenu(FacilityManager& manager) {
                 getline(cin, input);
                 manager.searchByID(input);
                 break;
-
+/*Final only 
             case 3:
                 // Search facilities by their name
                 cout << "\nEnter Facility Name: ";
@@ -74,7 +74,7 @@ void facilityMenu(FacilityManager& manager) {
                 cout << "\nFacility Category Report:\n";
                 manager.categoryReport();
                 break;
-
+*/
             case 6:
                 // Show the hash table information
                 cout << "\nHash Table Statistics:\n";
@@ -94,6 +94,66 @@ void facilityMenu(FacilityManager& manager) {
     } while (choice != 0);
 }
 
+bool isBlank(string s) {
+    for (size_t i = 0; i < s.size(); i++) {
+        if (s[i] != ' ' && s[i] != '\t' && s[i] != '\r') {
+            return false;
+        }
+    }
+    return true;
+}
+
+// this adds a department from the menu
+void addDepartmentMenu(DepartmentTree& tree) {
+    string name, parent, error;
+
+    cout << "Enter department name: ";
+    getline(cin, name);
+    if (isBlank(name)) {
+        cout << "Error: department name cannot be blank.\n";
+        return;
+    }
+
+    
+    if (!tree.isEmpty()) {
+      cout << "Enter parent department name: ";
+     getline(cin, parent);
+     if (isBlank(parent)) {
+       cout << "Error: parent name cannot be blank.\n";
+         return;
+        
+    }
+    }
+    if (tree.addDepartment(name, parent, error)) {
+   cout << "Department added.\n";
+  } else {
+   cout << "Error: " << error << "\n";
+ }
+}
+
+//searcdxh for the department
+void searchDepartmentMenu(DepartmentTree& tree) {
+ string name;
+  cout << "Enter department name: ";
+ getline(cin, name);
+    if (isBlank(name)) {
+  cout << "Error: department name cannot be blank.\n";
+return;
+}
+tree.searchAndDisplay(name);
+}
+int readChoice() {
+    string line;
+    getline(cin, line);
+
+    if (line.size() == 1 && line[0] >= '0' && line[0] <= '9') {
+        return line[0] - '0';
+    }
+    return -1;
+}
+
+
+
 int main(int argc, char* argv[]){
 
     string DataDirectory= "data";
@@ -106,6 +166,13 @@ int main(int argc, char* argv[]){
 
     LoadBuildings(graph, DataDirectory + "/buildings.txt");
     LoadConnections(graph, DataDirectory + "/connections.txt");
+
+    DepartmentTree tree;
+    int deptAccepted = 0, deptRejected = 0;
+    tree.loadFromFile(DataDirectory + "/departments.txt", "departments.txt",
+                      deptAccepted, deptRejected);
+    cout << "departments.txt: " << deptAccepted << " accepted, "
+         << deptRejected << " rejected\n";
 
     int choice= -1;
 
@@ -170,16 +237,16 @@ int main(int argc, char* argv[]){
                 break;
             }
             case 6:
-            //member C
+                addDepartmentMenu(tree);
                 break;
             case 7:
-            //member C
+                searchDepartmentMenu(tree);
                 break;
             case 8:
-            //member C
+                tree.displayHierarchy();
                 break;
             case 9:
-            //member C
+                tree.printSequence("Preorder",tree.preorder());
                 break;
             case 10:
                 cout<<"Exiting program.... \n";

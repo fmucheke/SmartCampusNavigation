@@ -1,0 +1,9 @@
+# messy file
+University|NONE
+College of Science|University
+college of science|University
+Physics|Nowhere
+Math|College of Science|Extra
+  Computer Science  |  College of Science  
+|University
+Room #5 Dept|University

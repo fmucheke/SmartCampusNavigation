@@ -39,7 +39,5 @@ std:: string TrimWhiteSpace(const std:: string& name){
     }
 
     std::string result= name.substr(start, end-start);
-
     return result;
 }
-

@@ -1,4 +1,3 @@
-
 #ifndef FACILITYMANAGER_H
 #define FACILITYMANAGER_H
 
