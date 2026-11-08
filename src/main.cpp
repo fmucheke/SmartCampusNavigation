@@ -2,6 +2,10 @@
 #include <string>
 #include <limits>
 #include "FacilityManager.h"
+#include "CampusGraph.h"
+#include "GraphLoader.h"
+#include "FileUtils.h"
+
 
 using namespace std;
 
@@ -90,3 +94,106 @@ void facilityMenu(FacilityManager& manager) {
     } while (choice != 0);
 }
 
+int main(int argc, char* argv[]){
+
+    string DataDirectory= "data";
+
+    if (argc>1) {
+        DataDirectory= argv[1];
+    }
+
+    CampusGraph graph;
+
+    LoadBuildings(graph, DataDirectory + "/buildings.txt");
+    LoadConnections(graph, DataDirectory + "/connections.txt");
+
+    int choice= -1;
+
+    do {
+        cout<<"\n========== Smart Campus Navigation ==========\n";
+        cout<<"1. View all facilities\n";
+        cout<<"2. Search facility by ID\n";
+        cout<<"3. View campus graph\n";
+        cout<<"4. Display graph counts and degrees\n";
+        cout<<"5. Find reachable buildings (BFS)\n";
+        cout<<"6. Add department\n";
+        cout<<"7. Search department\n";
+        cout<<"8. Display department hierarchy\n";
+        cout<<"9. Run preorder traversal\n";
+        cout<<"10. Exit\n";
+        cout<<"=============================================\n";
+        cout<<"Enter your choice: ";
+
+
+        if (!(cin >> choice)) {
+            if (cin.eof()) {
+                cout<<"\nInput ended, exiting the program.\n";
+                break;
+            }
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number.\n";
+            choice = -1;
+            continue;
+        }
+
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        switch (choice) {
+            case 1:
+            //member A
+                break;
+            case 2:
+            //member A
+                break;
+            case 3:
+                cout<<"\nCampus Graph:\n";
+                graph.DisplayGraph();
+                break;
+            case 4:
+                cout<<"\nGraph Counts and Degrees:\n";
+                graph.DisplayDegrees();
+                break;
+            case 5:{
+                string start;
+
+                cout<<"Enter the starting building: ";
+                getline(cin,start);
+                start= TrimWhiteSpace(start);
+
+                if (start.empty()){
+                    cout<<"Error: starting building cannot be an empty string"<<endl;
+                }
+                else{
+                    graph.BFS(start);
+                }
+                break;
+            }
+            case 6:
+            //member C
+                break;
+            case 7:
+            //member C
+                break;
+            case 8:
+            //member C
+                break;
+            case 9:
+            //member C
+                break;
+            case 10:
+                cout<<"Exiting program.... \n";
+                break;
+            default:
+                cout<<"Invalid choice, please try again.\n";
+                break;
+
+
+        }
+    
+
+
+    } while (choice!=10);
+
+    return 0;
+}

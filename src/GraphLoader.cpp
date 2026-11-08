@@ -33,6 +33,16 @@ void LoadBuildings(CampusGraph& graph, const string& filePath) {
             continue;
         }
 
+        if (building.find('|')!= string::npos){
+            rejected++;
+
+                cout<<"Warning: " <<filePath
+                <<", line: "<<lineNumber
+                <<": too many fields in building record"
+                <<endl;
+            continue;
+        }
+
         if (graph.AddBuilding(building)){
 
             accepted+=1;
