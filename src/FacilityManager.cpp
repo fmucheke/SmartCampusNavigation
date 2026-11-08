@@ -1,3 +1,4 @@
+
 #include "FacilityManager.h"
 #include "FileUtils.h"
 
@@ -40,8 +41,14 @@ void FacilityManager::loadFacilities(
 
     std::ifstream file(filePath);
 
+    // Handle a missing or unreadable facility file
     if (!file.is_open()) {
         std::cout << "Could not open: " << filePath << "\n";
+
+        std::cout << "\nFacilities accepted: 0\n";
+        std::cout << "Facilities rejected: 0\n";
+
+        displayHashStats();
         return;
     }
 
