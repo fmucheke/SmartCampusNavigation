@@ -1,32 +1,36 @@
 TEST RESULTS - Milestone 1 (Department Tree, Member C: Samriddi Upreti)
 =======================================================================
-Run command:  ./campus <data folder>      (menu: 6 Add, 7 Search, 8 Hierarchy, 9 Preorder, 0 Exit)
+Run command (normal data): ./campus
+Run command (empty tree): ./campus testdata/tree_empty
+Run command (root-only tree): ./campus testdata/tree_root_only
+Run command (invalid data): ./campus testdata/tree_bad
+Menu options: 6 Add, 7 Search, 8 Hierarchy, 9 Preorder, 10 Exit
 Folders used: data/ (sample files), testdata/tree_empty, testdata/tree_root_only, testdata/tree_bad
 
 Test 1
 Description: Sample departments.txt loads
-Input:       ./campus data, then 0
+Input:       ./campus, then 10
 Expected:    7 accepted, 0 rejected
 Actual:      departments.txt: 7 accepted, 0 rejected
 Result:      PASS
 
 Test 2
 Description: Empty tree - view hierarchy, preorder, and search
-Input:       ./campus testdata/tree_empty, then 8, 9, 7 (University), 0
+Input:       ./campus testdata/tree_empty, then 8, 9, 7 (University), 10
 Expected:    Clear empty messages, search says not found, no crash
 Actual:      "No departments are loaded." for 8 and 9, "Department not found: University" for 7
 Result:      PASS
 
 Test 3
 Description: Empty tree - first department becomes root with NO parent prompt
-Input:       ./campus testdata/tree_empty, then 6, University, 8, 9, 0
+Input:       ./campus testdata/tree_empty, then 6, University, 8, 9, 10
 Expected:    Root added without asking for a parent
 Actual:      "Department added." (no parent prompt), hierarchy shows University, preorder shows University
 Result:      PASS
 
 Test 4
 Description: Root-only tree - hierarchy, preorder, search for root
-Input:       ./campus testdata/tree_root_only, then 8, 9, 7 (university), 0
+Input:       ./campus testdata/tree_root_only, then 8, 9, 7 (university), 10
 Expected:    Hierarchy and preorder show University; search shows parent None, 0 children, depth 0
 Actual:      Department: University / Parent: None / Direct children: 0 / Depth: 0
 Result:      PASS
@@ -121,7 +125,7 @@ Test 16
 Description: Invalid menu input (letters, blank, out of range)
 Input:       abc   then   (Enter)   then   99
 Expected:    Error message each time, menu returns, no crash or infinite loop
-Actual:      "Invalid choice. Please enter 0 to 9." for each, menu returned
+Actual:      "Invalid choice, please try again." for each, menu returned
 Result:      PASS
 
 Test 17
@@ -153,8 +157,9 @@ Result:      PASS
 
 Test 20
 Description: Missing departments.txt file
-Input:       ./campus testdata/nofolder, then 8, 7 (X), 9, 0
+Input:       ./campus testdata/nofolder, then 8, 7 (X), 9, 10
+Note:        This folder is not in the submitted ZIP. This test needs to be rerun or confirmed on CELL.
 Expected:    Error naming the file, tree treated as empty, no crash
-Actual:      "Error: Cannot open testdata/nofolder/departments.txt", then 0 accepted, 0 rejected,
+Actual:      "Error: Cannot open testdata/nofolder/departments.txt", then 10 accepted, 0 rejected,
              empty messages for 8 and 9, "Department not found: X" for 7
 Result:      PASS
