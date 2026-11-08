@@ -1,3 +1,4 @@
+
 #include "FacilityManager.h"
 #include "FileUtils.h"
 
@@ -7,20 +8,21 @@
 #include <iomanip>
 #include <vector>
 #include <string>
-#include <cctype>
 
-// Remove spaces from the beginning and end
+// Remove extra spaces from the text
 std::string FacilityManager::trim(std::string text) const {
     return TrimWhiteSpace(text);
 }
 
-// Convert text to uppercase for comparisons
+// Make text consistent when comparing names
 std::string FacilityManager::normalize(std::string text) const {
     return StandardizeName(text);
 }
 
-// Load facilities from the text file
-void FacilityManager::loadFacilities(const std::string& filePath) {
+void FacilityManager::loadFacilities(
+    const std::string& filePath,
+    const CampusGraph& campusGraph) {
+
     std::ifstream file(filePath);
 
     if (!file.is_open()) {
@@ -28,26 +30,7 @@ void FacilityManager::loadFacilities(const std::string& filePath) {
         return;
     }
 
-    // Load the valid building names
-    std::vector<std::string> buildings;
-    std::ifstream buildingFile("data/buildings.txt");
     std::string line;
-
-    if (!buildingFile.is_open()) {
-        std::cout << "Could not open data/buildings.txt\n";
-        return;
-    }
-
-    while (std::getline(buildingFile, line)) {
-        line = trim(line);
-
-        if (line.empty() || line[0] == '#') {
-            continue;
-        }
-
-        buildings.push_back(normalize(line));
-    }
-
     int accepted = 0;
     int rejected = 0;
     int lineNumber = 0;
@@ -56,12 +39,12 @@ void FacilityManager::loadFacilities(const std::string& filePath) {
         lineNumber++;
         line = trim(line);
 
-        // Ignore blank lines and comments
+        // Skip blank lines and comments
         if (line.empty() || line[0] == '#') {
             continue;
         }
 
-        // Check that there are exactly four fields
+        // Check if the line has four fields
         int separators = 0;
 
         for (char c : line) {
@@ -78,6 +61,7 @@ void FacilityManager::loadFacilities(const std::string& filePath) {
         }
 
         std::stringstream stream(line);
+
         std::string id;
         std::string name;
         std::string building;
@@ -93,7 +77,7 @@ void FacilityManager::loadFacilities(const std::string& filePath) {
         building = trim(building);
         category = trim(category);
 
-        // Check for empty fields
+        // Make sure all fields have values
         if (id.empty() || name.empty() ||
             building.empty() || category.empty()) {
 
@@ -103,17 +87,8 @@ void FacilityManager::loadFacilities(const std::string& filePath) {
             continue;
         }
 
-        // Check that the building exists
-        bool buildingFound = false;
-
-        for (const std::string& validBuilding : buildings) {
-            if (normalize(building) == validBuilding) {
-                buildingFound = true;
-                break;
-            }
-        }
-
-        if (!buildingFound) {
+        // Check the building using the campus graph
+        if (!campusGraph.BuildingExists(building)) {
             std::cout << filePath << ":" << lineNumber
                       << " - Unknown building: "
                       << building << "\n";
@@ -121,11 +96,11 @@ void FacilityManager::loadFacilities(const std::string& filePath) {
             continue;
         }
 
-        // Create the facility
+        // Create a facility with the given information
         Facility facility(id, name, building, category);
 
-        // Insert into custom hash table
-        // Reject invalid or duplicate IDs
+        // Add facility to the hash table
+        // Duplicate or invalid IDs will be rejected
         if (!hashTable.insert(facility)) {
             std::cout << filePath << ":" << lineNumber
                       << " - Invalid or duplicate facility ID\n";
@@ -133,6 +108,7 @@ void FacilityManager::loadFacilities(const std::string& filePath) {
             continue;
         }
 
+        // Store the facility after validation
         facilities.push_back(facility);
         accepted++;
     }
@@ -143,6 +119,7 @@ void FacilityManager::loadFacilities(const std::string& filePath) {
 
 // Display all facilities
 void FacilityManager::displayAll() const {
+
     if (facilities.empty()) {
         std::cout << "No facilities available.\n";
         return;
@@ -154,8 +131,9 @@ void FacilityManager::displayAll() const {
     }
 }
 
-// Search by facility ID using the custom hash table
+// Search for a facility using its ID
 void FacilityManager::searchByID(const std::string& id) const {
+
     const Facility* found = hashTable.search(id);
 
     if (found != nullptr) {
@@ -166,8 +144,9 @@ void FacilityManager::searchByID(const std::string& id) const {
     }
 }
 
-// Search by complete facility name
+// Search for facilities with the same name
 void FacilityManager::searchByName(const std::string& name) const {
+
     bool found = false;
 
     for (const Facility& facility : facilities) {
@@ -183,7 +162,7 @@ void FacilityManager::searchByName(const std::string& name) const {
     }
 }
 
-// Search by facility category
+// Search for facilities in a category
 void FacilityManager::searchByCategory(
     const std::string& category) const {
 
@@ -204,8 +183,9 @@ void FacilityManager::searchByCategory(
     }
 }
 
-// Display category statistics
+// Display the number of facilities in each category
 void FacilityManager::categoryReport() const {
+
     if (facilities.empty()) {
         std::cout << "No facilities available for report.\n";
         std::cout << "Total facilities: 0\n";
@@ -216,11 +196,11 @@ void FacilityManager::categoryReport() const {
     std::vector<std::string> categoryKeys;
     std::vector<int> counts;
 
-    // Count facilities in each category
+    // Count how many facilities belong to each category
     for (const Facility& facility : facilities) {
+
         std::string category = facility.getCategory();
         std::string key = normalize(category);
-
         bool found = false;
 
         for (size_t i = 0; i < categoryKeys.size(); i++) {
@@ -231,6 +211,7 @@ void FacilityManager::categoryReport() const {
             }
         }
 
+        // Add the category if it is not already in the list
         if (!found) {
             categoryKeys.push_back(key);
             categoryNames.push_back(category);
@@ -250,7 +231,9 @@ void FacilityManager::categoryReport() const {
 
     std::cout << "----------------------------------------\n";
 
+    // Calculate and display the percentage for each category
     for (size_t i = 0; i < categoryNames.size(); i++) {
+
         double percent =
             (static_cast<double>(counts[i]) / total) * 100.0;
 
@@ -270,13 +253,17 @@ int FacilityManager::getFacilityCount() const {
     return static_cast<int>(facilities.size());
 }
 
-// Display custom hash table statistics
+// Display information about the custom hash table
 void FacilityManager::displayHashStats() const {
+
     std::cout << "\nHash Table Statistics\n";
+
     std::cout << "Capacity: "
               << hashTable.getCapacity() << "\n";
+
     std::cout << "Entries: "
               << hashTable.getEntryCount() << "\n";
+
     std::cout << "Collisions: "
               << hashTable.getCollisionCount() << "\n";
 }
