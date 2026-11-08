@@ -158,3 +158,73 @@ Expected:    Error naming the file, tree treated as empty, no crash
 Actual:      "Error: Cannot open testdata/nofolder/departments.txt", then 0 accepted, 0 rejected,
              empty messages for 8 and 9, "Department not found: X" for 7
 Result:      PASS
+
+### Milestone 1 - Graph and BFS Testing — Member B: Franklin Mucheke
+
+**Environment:** Windows, VS Code PowerShell, GCC C++17
+
+**Test 1: Standard Data Loading**
+- Input: Default `data/buildings.txt` and `data/connections.txt`.
+- Expected: 7 buildings and 6 undirected connections successfully loaded.
+- Actual: 7 buildings accepted, 0 rejected; 6 connections accepted, 0 rejected.
+- Result: PASS
+
+**Test 2: Graph Display (Menu Option 3)**
+- Input: `3`
+- Expected: All seven buildings displayed with correct adjacent buildings in insertion order; Observatory displayed without connections.
+- Actual: All adjacency lists displayed correctly, including `Observatory: (no connections)`.
+- Result: PASS
+
+**Test 3: Graph Counts and Degrees (Menu Option 4)**
+- Input: `4`
+- Expected: 7 buildings, 6 connections and degrees 2, 3, 2, 1, 2, 2, 0.
+- Actual: All counts and degrees matched the expected values.
+- Result: PASS
+
+**Test 4: BFS and Case-Insensitive Search (Menu Option 5)**
+- Input: `5`, followed by `library`.
+- Expected: BFS starts at Library, visits six buildings in queue order, reports distances 0, 1, 1, 2, 2, 3, and excludes the isolated Observatory.
+- Actual: Correct BFS visitation order, distances and `Reachable Buildings: 6 out of 7`.
+- Result: PASS
+
+**Test 5: Normal Program Exit**
+- Input: `10`
+- Expected: Program terminates normally.
+- Actual: `Exiting program....` displayed, and control returned to the terminal.
+- Result: PASS
+
+**Test 6: BFS from an Isolated Building**
+- Input: Menu option `5`, starting building `observatory`.
+- Expected: Case-insensitive lookup recognizes Observatory, reports distance 0 and counts only 1 reachable building.
+- Actual: `Observatory: distance 0` and `Reachable Buildings: 1 out of 7`.
+- Result: PASS
+
+**Test 7: BFS from an Unknown Building**
+- Input: Menu option `5`, starting building `Unknown Building`.
+- Expected: Display an error and return to the main menu without crashing.
+- Actual: `The starting building does not exist`, followed by the main menu.
+- Result: PASS
+
+**Test 8: Empty BFS Starting Building**
+- Input: Menu option `5`, followed by an empty string.
+- Expected: Reject the empty name and return to the main menu.
+- Actual: `Error: starting building cannot be an empty string`, followed by the main menu.
+- Result: PASS
+
+**Test 9: Non-Numeric Menu Input**
+- Input: `abcd`
+- Expected: Reject non-numeric input and redisplay the main menu.
+- Actual: `Invalid input. Please enter a number.` followed by the main menu.
+- Result: PASS
+
+**Test 10: Invalid Numeric Menu Choices**
+- Input: `-1`, followed by `11`.
+- Expected: Reject choices outside the supported menu range.
+- Actual: Both inputs produced `Invalid choice, please try again.` and returned to the menu.
+- Result: PASS
+
+**Test 11: Unknown Numeric Building Name**
+- Input: Menu option `5`, starting building `10`.
+- Expected: Reject the unknown building without crashing.
+- Actual: `The starting building does not exist`, followed by the main menu.
+- Result: PASS
