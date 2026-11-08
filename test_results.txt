@@ -1,1 +1,160 @@
+TEST RESULTS - Milestone 1 (Department Tree, Member C: Samriddi Upreti)
+=======================================================================
+Run command:  ./campus <data folder>      (menu: 6 Add, 7 Search, 8 Hierarchy, 9 Preorder, 0 Exit)
+Folders used: data/ (sample files), testdata/tree_empty, testdata/tree_root_only, testdata/tree_bad
 
+Test 1
+Description: Sample departments.txt loads
+Input:       ./campus data, then 0
+Expected:    7 accepted, 0 rejected
+Actual:      departments.txt: 7 accepted, 0 rejected
+Result:      PASS
+
+Test 2
+Description: Empty tree - view hierarchy, preorder, and search
+Input:       ./campus testdata/tree_empty, then 8, 9, 7 (University), 0
+Expected:    Clear empty messages, search says not found, no crash
+Actual:      "No departments are loaded." for 8 and 9, "Department not found: University" for 7
+Result:      PASS
+
+Test 3
+Description: Empty tree - first department becomes root with NO parent prompt
+Input:       ./campus testdata/tree_empty, then 6, University, 8, 9, 0
+Expected:    Root added without asking for a parent
+Actual:      "Department added." (no parent prompt), hierarchy shows University, preorder shows University
+Result:      PASS
+
+Test 4
+Description: Root-only tree - hierarchy, preorder, search for root
+Input:       ./campus testdata/tree_root_only, then 8, 9, 7 (university), 0
+Expected:    Hierarchy and preorder show University; search shows parent None, 0 children, depth 0
+Actual:      Department: University / Parent: None / Direct children: 0 / Depth: 0
+Result:      PASS
+
+Test 5
+Description: Search for the root (lowercase) in the sample tree
+Input:       7, university
+Expected:    University, parent None, 2 children, depth 0
+Actual:      Department: University / Parent: None / Direct children: 2 / Depth: 0
+Result:      PASS
+
+Test 6
+Description: Search for non-root departments (capitalization ignored)
+Input:       7, COLLEGE OF SCIENCE   then   7, Computer Science
+Expected:    College of Science: parent University, 2 children, depth 1
+             Computer Science: parent College of Engineering, 0 children, depth 2
+Actual:      Matches expected for both
+Result:      PASS
+
+Test 7
+Description: Search for a missing department
+Input:       7, Biology
+Expected:    Not-found message, tree unchanged
+Actual:      "Department not found: Biology"
+Result:      PASS
+
+Test 8
+Description: Add a department with an unknown parent
+Input:       6, Biology, Nowhere Dept
+Expected:    Error naming the unknown parent, tree unchanged
+Actual:      "Error: Unknown parent: Nowhere Dept"
+Result:      PASS
+
+Test 9
+Description: Add a duplicate department name with different capitalization
+Input:       6, COMPUTER SCIENCE, College of Science
+Expected:    Duplicate error, tree unchanged
+Actual:      "Error: Duplicate department: COMPUTER SCIENCE"
+Result:      PASS
+
+Test 10
+Description: Add a valid department under an existing parent (parent typed in lowercase)
+Input:       6, Biology, college of science, then 8, 9
+Expected:    Biology added as the last child of College of Science
+Actual:      "Department added." Hierarchy shows Biology under College of Science after Physics
+Result:      PASS
+
+Test 11
+Description: Hierarchy display uses 4 spaces per depth level
+Input:       8 (sample data)
+Expected:    University / 4 spaces College of Engineering / 8 spaces Computer Science, etc.
+Actual:      University
+                 College of Engineering
+                     Computer Science
+                     Electrical Engineering
+                 College of Science
+                     Mathematics
+                     Physics
+Result:      PASS
+
+Test 12
+Description: Preorder traversal (sequence, no indentation)
+Input:       9 (sample data)
+Expected:    University, College of Engineering, Computer Science, Electrical Engineering,
+             College of Science, Mathematics, Physics
+Actual:      University -> College of Engineering -> Computer Science -> Electrical Engineering
+             -> College of Science -> Mathematics -> Physics
+Result:      PASS
+
+Test 13
+Description: Blank department name
+Input:       6, (press Enter)
+Expected:    Error, return to menu
+Actual:      "Error: department name cannot be blank."
+Result:      PASS
+
+Test 14
+Description: Blank parent name
+Input:       6, Bio, (press Enter)
+Expected:    Error, return to menu, tree unchanged
+Actual:      "Error: parent name cannot be blank."
+Result:      PASS
+
+Test 15
+Description: Blank name at the search prompt
+Input:       7, (press Enter)
+Expected:    Error, return to menu
+Actual:      "Error: department name cannot be blank."
+Result:      PASS
+
+Test 16
+Description: Invalid menu input (letters, blank, out of range)
+Input:       abc   then   (Enter)   then   99
+Expected:    Error message each time, menu returns, no crash or infinite loop
+Actual:      "Invalid choice. Please enter 0 to 9." for each, menu returned
+Result:      PASS
+
+Test 17
+Description: Names containing spaces, with extra spaces around the name
+Input:       6, Data Science Dept, college of engineering, then 7, "  Data Science Dept  "
+Expected:    Added under College of Engineering; search trims the spaces and finds it
+Actual:      Department: Data Science Dept / Parent: College of Engineering / Children: 0 / Depth: 2
+Result:      PASS
+
+Test 18
+Description: Repeated operations after errors still work
+Input:       Blank name error, blank parent error, abc, 99, then 7 Physics
+Expected:    Search for Physics works after the errors
+Actual:      Department: Physics / Parent: College of Science / Children: 0 / Depth: 2
+Result:      PASS
+
+Test 19
+Description: Bad departments file (Windows line endings, duplicate by capitalization,
+             unknown parent, wrong field count, empty field, extra spaces, # inside a name)
+Input:       ./campus testdata/tree_bad, then 8
+Expected:    Bad lines rejected with filename, line number, and reason; good lines kept
+Actual:      Warning: departments.txt line 4: Duplicate department: college of science
+             Warning: departments.txt line 5: Unknown parent: Nowhere
+             Warning: departments.txt line 6: Wrong number of fields
+             Warning: departments.txt line 8: Empty department or parent name
+             Summary: 4 accepted, 4 rejected. "Computer Science" (extra spaces) and
+             "Room #5 Dept" were accepted. Hierarchy printed correctly.
+Result:      PASS
+
+Test 20
+Description: Missing departments.txt file
+Input:       ./campus testdata/nofolder, then 8, 7 (X), 9, 0
+Expected:    Error naming the file, tree treated as empty, no crash
+Actual:      "Error: Cannot open testdata/nofolder/departments.txt", then 0 accepted, 0 rejected,
+             empty messages for 8 and 9, "Department not found: X" for 7
+Result:      PASS
