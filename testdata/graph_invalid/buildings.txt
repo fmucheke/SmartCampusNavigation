@@ -1,0 +1,8 @@
+# Graph validation test
+Library
+Science Building
+Gym
+library
+Library|Extra
+
+Observatory
