@@ -119,7 +119,7 @@ void addDepartmentMenu(DepartmentTree& tree) {
          return;
         
     }
-
+    }
     if (tree.addDepartment(name, parent, error)) {
    cout << "Department added.\n";
   } else {
@@ -138,6 +138,16 @@ return;
 }
 tree.searchAndDisplay(name);
 }
+int readChoice() {
+    string line;
+    getline(cin, line);
+
+    if (line.size() == 1 && line[0] >= '0' && line[0] <= '9') {
+        return line[0] - '0';
+    }
+    return -1;
+}
+
 int main(int argc, char* argv[]) {
     string dataDir = "data";
     if (argc > 1) {
@@ -162,6 +172,7 @@ int main(int argc, char* argv[]) {
 
  cout << "0. Exit\n";
         cout << "Enter your choice: ";
+        choice = readChoice();
 
  switch (choice) {
 
