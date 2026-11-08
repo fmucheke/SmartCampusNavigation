@@ -8,16 +8,32 @@
 #include <vector>
 #include <string>
 
-// Remove extra spaces from the text
+// Remove spaces from the beginning and end
 std::string FacilityManager::trim(std::string text) const {
     return TrimWhiteSpace(text);
 }
 
-// Make text consistent when comparing names
+// Make text consistent for comparisons
 std::string FacilityManager::normalize(std::string text) const {
     return StandardizeName(text);
 }
 
+// Check if the facility ID follows the correct format
+static bool validFacilityID(const std::string& id) {
+    if (id.length() != 4 || id[0] != 'F') {
+        return false;
+    }
+
+    for (int i = 1; i < 4; i++) {
+        if (id[i] < '0' || id[i] > '9') {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// Load facilities from the given file
 void FacilityManager::loadFacilities(
     const std::string& filePath,
     const CampusGraph& campusGraph) {
@@ -38,12 +54,12 @@ void FacilityManager::loadFacilities(
         lineNumber++;
         line = trim(line);
 
-        // Skip blank lines and comments
+        // Skip empty lines and comments
         if (line.empty() || line[0] == '#') {
             continue;
         }
 
-        // Check if the line has four fields
+        // Each facility should have four fields
         int separators = 0;
 
         for (char c : line) {
@@ -86,6 +102,15 @@ void FacilityManager::loadFacilities(
             continue;
         }
 
+        // Check the ID format
+        if (!validFacilityID(id)) {
+            std::cout << filePath << ":" << lineNumber
+                      << " - Invalid facility ID format: "
+                      << id << "\n";
+            rejected++;
+            continue;
+        }
+
         // Check the building using the campus graph
         if (!campusGraph.BuildingExists(building)) {
             std::cout << filePath << ":" << lineNumber
@@ -95,25 +120,39 @@ void FacilityManager::loadFacilities(
             continue;
         }
 
-        // Create a facility with the given information
-        Facility facility(id, name, building, category);
+        // The official building spelling will be added
+        // after CampusGraph provides GetBuildingName()
 
-        // Add facility to the hash table
-        // Duplicate or invalid IDs will be rejected
-        if (!hashTable.insert(facility)) {
+        // Check for duplicate facility IDs
+        if (hashTable.search(id) != nullptr) {
             std::cout << filePath << ":" << lineNumber
-                      << " - Invalid or duplicate facility ID\n";
+                      << " - Duplicate facility ID: "
+                      << id << "\n";
             rejected++;
             continue;
         }
 
-        // Store the facility after validation
+        // Create the facility
+        Facility facility(id, name, building, category);
+
+        // Add the facility to the custom hash table
+        if (!hashTable.insert(facility)) {
+            std::cout << filePath << ":" << lineNumber
+                      << " - Could not insert facility: "
+                      << id << "\n";
+            rejected++;
+            continue;
+        }
+
         facilities.push_back(facility);
         accepted++;
     }
 
-    std::cout << "Facilities accepted: " << accepted << "\n";
+    // Show the loading summary and hash statistics together
+    std::cout << "\nFacilities accepted: " << accepted << "\n";
     std::cout << "Facilities rejected: " << rejected << "\n";
+
+    displayHashStats();
 }
 
 // Display all facilities
@@ -133,18 +172,31 @@ void FacilityManager::displayAll() const {
 // Search for a facility using its ID
 void FacilityManager::searchByID(const std::string& id) const {
 
-    const Facility* found = hashTable.search(id);
+    // Remove spaces and convert the ID to uppercase
+    std::string normalizedID = normalize(id);
+
+    // Check the ID before searching
+    if (!validFacilityID(normalizedID)) {
+        std::cout << "Invalid facility ID format. "
+                  << "Use F followed by three digits.\n";
+        return;
+    }
+
+    // Search the custom hash table
+    const Facility* found = hashTable.search(normalizedID);
 
     if (found != nullptr) {
         std::cout << "Facility found:\n";
         found->display();
     } else {
-        std::cout << "Facility not found.\n";
+        std::cout << "Facility " << normalizedID
+                  << " not found.\n";
     }
 }
 
-// Search for facilities with the same name
-void FacilityManager::searchByName(const std::string& name) const {
+// Search for facilities by name
+void FacilityManager::searchByName(
+    const std::string& name) const {
 
     bool found = false;
 
@@ -161,7 +213,7 @@ void FacilityManager::searchByName(const std::string& name) const {
     }
 }
 
-// Search for facilities in a category
+// Search for facilities by category
 void FacilityManager::searchByCategory(
     const std::string& category) const {
 
@@ -182,7 +234,7 @@ void FacilityManager::searchByCategory(
     }
 }
 
-// Display the number of facilities in each category
+// Display category statistics
 void FacilityManager::categoryReport() const {
 
     if (facilities.empty()) {
@@ -195,9 +247,8 @@ void FacilityManager::categoryReport() const {
     std::vector<std::string> categoryKeys;
     std::vector<int> counts;
 
-    // Count how many facilities belong to each category
+    // Count facilities in each category
     for (const Facility& facility : facilities) {
-
         std::string category = facility.getCategory();
         std::string key = normalize(category);
         bool found = false;
@@ -210,7 +261,6 @@ void FacilityManager::categoryReport() const {
             }
         }
 
-        // Add the category if it is not already in the list
         if (!found) {
             categoryKeys.push_back(key);
             categoryNames.push_back(category);
@@ -230,9 +280,7 @@ void FacilityManager::categoryReport() const {
 
     std::cout << "----------------------------------------\n";
 
-    // Calculate and display the percentage for each category
     for (size_t i = 0; i < categoryNames.size(); i++) {
-
         double percent =
             (static_cast<double>(counts[i]) / total) * 100.0;
 
@@ -252,7 +300,7 @@ int FacilityManager::getFacilityCount() const {
     return static_cast<int>(facilities.size());
 }
 
-// Display information about the custom hash table
+// Display custom hash table statistics
 void FacilityManager::displayHashStats() const {
 
     std::cout << "\nHash Table Statistics\n";
