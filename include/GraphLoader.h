@@ -8,4 +8,3 @@ void LoadBuildings (CampusGraph& graph, const std::string& filePath);
 void LoadConnections (CampusGraph& graph, const std::string& filePath);
 
 #endif
-

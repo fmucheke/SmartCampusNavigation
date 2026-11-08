@@ -1,192 +1,225 @@
+
 #include <iostream>
 #include <string>
 #include <limits>
+
 #include "FacilityManager.h"
 #include "DepartmentTree.h"
+#include "CampusGraph.h"
+#include "GraphLoader.h"
+
 using namespace std;
 
-// This function handles the facility menu
+// Facility management menu
 void facilityMenu(FacilityManager& manager) {
-
     int choice = -1;
     string input;
 
     do {
-        // Display the facility menu
         cout << "\n========== Facility Management ==========\n";
         cout << "1. Display All Facilities\n";
         cout << "2. Search Facility by ID\n";
-       // cout << "3. Search Facility by Name\n";//final
-       // cout << "4. Search Facility by Category\n";//final
-      //  cout << "5. Facility Category Report\n";// final 
         cout << "6. Hash Table Statistics\n";
         cout << "0. Return to Main Menu\n";
         cout << "=========================================\n";
         cout << "Enter your choice: ";
 
-        // Check if the user entered a valid number
         if (!(cin >> choice)) {
+            if (cin.eof()) {
+                return;
+            }
+
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Invalid input. Please enter a number.\n";
-            choice = -1;
             continue;
         }
 
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        
         switch (choice) {
-
             case 1:
-                // Show all facilities
                 cout << "\nAll Campus Facilities:\n";
                 manager.displayAll();
                 break;
 
             case 2:
-                // Search for a facility using its ID
                 cout << "\nEnter Facility ID: ";
                 getline(cin, input);
                 manager.searchByID(input);
                 break;
-/*Final only 
-            case 3:
-                // Search facilities by their name
-                cout << "\nEnter Facility Name: ";
-                getline(cin, input);
-                manager.searchByName(input);
-                break;
 
-            case 4:
-                // Find facilities in a specific category
-                cout << "\nEnter Facility Category: ";
-                getline(cin, input);
-                manager.searchByCategory(input);
-                break;
-
-            case 5:
-                // Display the number and percentage of each category
-                cout << "\nFacility Category Report:\n";
-                manager.categoryReport();
-                break;
-*/
             case 6:
-                // Show the hash table information
-                cout << "\nHash Table Statistics:\n";
                 manager.displayHashStats();
                 break;
 
             case 0:
-                // Go back to the main menu
-                cout << "\nReturning to Main Menu...\n";
+                cout << "Returning to Main Menu...\n";
                 break;
 
             default:
-                cout << "\nInvalid choice. Try again.\n";
+                cout << "Invalid choice. Try again.\n";
                 break;
         }
 
     } while (choice != 0);
 }
 
+// Check for blank input
 bool isBlank(string s) {
-    for (size_t i = 0; i < s.size(); i++) {
-        if (s[i] != ' ' && s[i] != '\t' && s[i] != '\r') {
+    for (char c : s) {
+        if (c != ' ' && c != '\t' && c != '\r') {
             return false;
         }
     }
+
     return true;
 }
 
-// this adds a department from the menu
+// Add a department
 void addDepartmentMenu(DepartmentTree& tree) {
     string name, parent, error;
 
     cout << "Enter department name: ";
     getline(cin, name);
+
     if (isBlank(name)) {
         cout << "Error: department name cannot be blank.\n";
         return;
     }
 
-    
     if (!tree.isEmpty()) {
-      cout << "Enter parent department name: ";
-     getline(cin, parent);
-     if (isBlank(parent)) {
-       cout << "Error: parent name cannot be blank.\n";
-         return;
-        
+        cout << "Enter parent department name: ";
+        getline(cin, parent);
+
+        if (isBlank(parent)) {
+            cout << "Error: parent name cannot be blank.\n";
+            return;
+        }
     }
-    }
+
     if (tree.addDepartment(name, parent, error)) {
-   cout << "Department added.\n";
-  } else {
-   cout << "Error: " << error << "\n";
- }
+        cout << "Department added.\n";
+    } else {
+        cout << "Error: " << error << "\n";
+    }
 }
 
-//searcdxh for the department
+// Search for a department
 void searchDepartmentMenu(DepartmentTree& tree) {
- string name;
-  cout << "Enter department name: ";
- getline(cin, name);
+    string name;
+
+    cout << "Enter department name: ";
+    getline(cin, name);
+
     if (isBlank(name)) {
-  cout << "Error: department name cannot be blank.\n";
-return;
+        cout << "Error: department name cannot be blank.\n";
+        return;
+    }
+
+    tree.searchAndDisplay(name);
 }
-tree.searchAndDisplay(name);
-}
+
+// Read a single-digit menu choice
 int readChoice() {
     string line;
-    getline(cin, line);
 
-    if (line.size() == 1 && line[0] >= '0' && line[0] <= '9') {
+    if (!getline(cin, line)) {
+        return 0;
+    }
+
+    if (line.size() == 1 &&
+        line[0] >= '0' &&
+        line[0] <= '9') {
         return line[0] - '0';
     }
+
     return -1;
 }
 
 int main(int argc, char* argv[]) {
     string dataDir = "data";
+
     if (argc > 1) {
         dataDir = argv[1];
     }
 
- DepartmentTree tree;
-    int deptAccepted = 0, deptRejected = 0;
-    tree.loadFromFile(dataDir + "/departments.txt", "departments.txt",
-                      deptAccepted, deptRejected);
-    cout << "departments.txt: " << deptAccepted << " accepted, "
+    // Load campus buildings and connections
+    CampusGraph campusGraph;
+
+    LoadBuildings(campusGraph, dataDir + "/buildings.txt");
+    LoadConnections(campusGraph, dataDir + "/connections.txt");
+
+    // Load Member A facilities
+    FacilityManager facilityManager;
+    facilityManager.loadFacilities(
+        dataDir + "/facilities.txt",
+        campusGraph
+    );
+
+    // Load departments
+    DepartmentTree tree;
+
+    int deptAccepted = 0;
+    int deptRejected = 0;
+
+    tree.loadFromFile(
+        dataDir + "/departments.txt",
+        "departments.txt",
+        deptAccepted,
+        deptRejected
+    );
+
+    cout << "departments.txt: "
+         << deptAccepted << " accepted, "
          << deptRejected << " rejected\n";
 
-
     int choice = -1;
-    do {
 
- cout << "6. Add department\n";
+    do {
+        cout << "\n========== Smart Campus System ==========\n";
+        cout << "1. Facility Management\n";
+        cout << "6. Add department\n";
         cout << "7. Search department\n";
         cout << "8. Display department hierarchy\n";
         cout << "9. Run preorder traversal\n";
-
- cout << "0. Exit\n";
+        cout << "0. Exit\n";
+        cout << "=========================================\n";
         cout << "Enter your choice: ";
+
         choice = readChoice();
 
- switch (choice) {
+        switch (choice) {
+            case 1:
+                facilityMenu(facilityManager);
+                break;
 
+            case 6:
+                addDepartmentMenu(tree);
+                break;
 
-  case 6: addDepartmentMenu(tree); break;
-            case 7: searchDepartmentMenu(tree); break;
-            case 8: tree.displayHierarchy(); break;
-            case 9: tree.printSequence("Preorder", tree.preorder()); break;
+            case 7:
+                searchDepartmentMenu(tree);
+                break;
 
- case 0: cout << "Goodbye.\n"; break;
-            default: cout << "Invalid choice. Please enter 0 to 9.\n"; break;
+            case 8:
+                tree.displayHierarchy();
+                break;
+
+            case 9:
+                tree.printSequence("Preorder", tree.preorder());
+                break;
+
+            case 0:
+                cout << "Goodbye.\n";
+                break;
+
+            default:
+                cout << "Invalid choice. Please enter 0 to 9.\n";
+                break;
         }
+
     } while (choice != 0);
 
     return 0;
 }
-

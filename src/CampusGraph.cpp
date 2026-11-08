@@ -147,3 +147,13 @@ void CampusGraph::BFS(const string& start) const{
     cout<<"Reachable Buildings: "<<reachableCount<<" out of "<<buildings.size()<<endl;
 
 }
+
+string CampusGraph::GetBuildingName(const string& name) const {
+    int index= FindBuildingIndex(name);
+
+    if (index==-1){
+        return "";
+    }
+
+    return buildings[index];
+}
