@@ -161,5 +161,4 @@ Input:       ./campus testdata/nofolder, then 8, 7 (X), 9, 10
 Note:        This folder is not in the submitted ZIP. This test needs to be rerun or confirmed on CELL.
 Expected:    Error naming the file, tree treated as empty, no crash
 Actual:      "Error: Cannot open testdata/nofolder/departments.txt", then 10 accepted, 0 rejected,
-             empty messages for 8 and 9, "Department not found: X" for 7
-Result:      PASS
+             empty messages f
