@@ -157,11 +157,15 @@ Result:      PASS
 
 Test 20
 Description: Missing departments.txt file
-Input:       ./campus testdata/nofolder, then 8, 7 (X), 9, 10
-Note:        This folder is not in the submitted ZIP. This test needs to be rerun or confirmed on CELL.
-Expected:    Error naming the file, tree treated as empty, no crash
-Actual:      "Error: Cannot open testdata/nofolder/departments.txt", then 10 accepted, 0 rejected,
-             empty messages f
+Input:       .\campus.exe testdata/nofolder, then 8, 7 (x), 9, 10
+Expected:    Error naming the missing file, 0 accepted and 0 rejected, empty-tree messages, and no crash.
+Actual:      "Error: Cannot open testdata/nofolder/departments.txt"
+             "departments.txt: 0 accepted, 0 rejected"
+             Option 8: "No departments are loaded."
+             Option 7: "Department not found: x"
+             Option 9: "Preorder" followed by "No departments are loaded."
+             Option 10: Program exited normally.
+Result:      PASS
 
 ### Milestone 1 - Graph and BFS Testing — Member B: Franklin Mucheke
 
