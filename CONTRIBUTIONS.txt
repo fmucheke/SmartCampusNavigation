@@ -24,6 +24,16 @@ Assigned Modules:
 - Tree traversals
 - Department statistics
 
+Additional Contributions:
+
+Wrote the design_document.txt for Milestone 1.
+
+Wrote and organized the README.txt with project details and instructions for running the program.
+
+Prepared the test_results.txt with test cases, expected outputs, and recorded results for Milestone 1.
+
+Worked on testing and documenting the department tree functions.
+
 Shared Work – All Team Members
 - File-loading utilities
 - Main menu and program integration
