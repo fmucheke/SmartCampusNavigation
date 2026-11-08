@@ -232,3 +232,17 @@ Actual:      "Error: Cannot open testdata/nofolder/departments.txt", then 10 acc
 - Expected: Reject the unknown building without crashing.
 - Actual: `The starting building does not exist`, followed by the main menu.
 - Result: PASS
+
+**Test 12: Invalid Building and Connection File Validation**
+
+- **Input:** `.\campus.exe testdata/graph_invalid`, followed by menu options `3`, `4` and `10`.
+- **Expected:** Reject case insensitive duplicate buildings, malformed building records, reversed duplicate connections, self-loops, unknown buildings, missing separators, extra fields and empty connection fields. Preserve valid data and report correct accepted/rejected counts.
+- **Actual:** Buildings: 4 accepted, 2 rejected. Connections: 2 accepted, 6 rejected. Each rejection included a filename, line number and reason. The graph displayed four valid buildings and two connections, with correct adjacency lists and degrees.
+- **Result:** PASS
+
+**Test 13: Missing Files and Empty Graph Handling**
+
+- **Input:** `.\campus.exe testdata/nonexistent_graph`, followed by menu options `3`, `4` and `10`.
+- **Expected:** The building and connection loaders report missing files, each with 0 accepted and 0 rejected. The program continues without crashing, displays an empty graph, reports zero buildings and connections and exits normally.
+- **Actual:** Both graph loaders reported file-opening errors and `0 accepted, 0 rejected`. Option 3 displayed `There are no buildings`. Option 4 reported `Total Buildings: 0` and `Total Connections: 0`. The program exited normally using option 10.
+- **Result:** PASS
