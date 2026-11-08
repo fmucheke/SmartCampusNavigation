@@ -14,8 +14,6 @@ Assigned Modules:
 
 - Campus graph
 - BFS reachability
-- Shortest path
-- Connectivity report
 
 Member C – Samriddi Upreti
 Assigned Modules:
