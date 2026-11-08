@@ -2,7 +2,7 @@
 #include <string>
 #include <limits>
 #include "FacilityManager.h"
-
+#include "DepartmentTree.h"
 using namespace std;
 
 // This function handles the facility menu
@@ -16,9 +16,9 @@ void facilityMenu(FacilityManager& manager) {
         cout << "\n========== Facility Management ==========\n";
         cout << "1. Display All Facilities\n";
         cout << "2. Search Facility by ID\n";
-        cout << "3. Search Facility by Name\n";
-        cout << "4. Search Facility by Category\n";
-        cout << "5. Facility Category Report\n";
+       // cout << "3. Search Facility by Name\n";//final
+       // cout << "4. Search Facility by Category\n";//final
+      //  cout << "5. Facility Category Report\n";// final 
         cout << "6. Hash Table Statistics\n";
         cout << "0. Return to Main Menu\n";
         cout << "=========================================\n";
@@ -35,7 +35,7 @@ void facilityMenu(FacilityManager& manager) {
 
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        // Run the option selected by the user
+        
         switch (choice) {
 
             case 1:
@@ -50,7 +50,7 @@ void facilityMenu(FacilityManager& manager) {
                 getline(cin, input);
                 manager.searchByID(input);
                 break;
-
+/*Final only 
             case 3:
                 // Search facilities by their name
                 cout << "\nEnter Facility Name: ";
@@ -70,7 +70,7 @@ void facilityMenu(FacilityManager& manager) {
                 cout << "\nFacility Category Report:\n";
                 manager.categoryReport();
                 break;
-
+*/
             case 6:
                 // Show the hash table information
                 cout << "\nHash Table Statistics:\n";
@@ -88,5 +88,94 @@ void facilityMenu(FacilityManager& manager) {
         }
 
     } while (choice != 0);
+}
+
+bool isBlank(string s) {
+    for (size_t i = 0; i < s.size(); i++) {
+        if (s[i] != ' ' && s[i] != '\t' && s[i] != '\r') {
+            return false;
+        }
+    }
+    return true;
+}
+
+// this adds a department from the menu
+void addDepartmentMenu(DepartmentTree& tree) {
+    string name, parent, error;
+
+    cout << "Enter department name: ";
+    getline(cin, name);
+    if (isBlank(name)) {
+        cout << "Error: department name cannot be blank.\n";
+        return;
+    }
+
+    
+    if (!tree.isEmpty()) {
+      cout << "Enter parent department name: ";
+     getline(cin, parent);
+     if (isBlank(parent)) {
+       cout << "Error: parent name cannot be blank.\n";
+         return;
+        
+    }
+
+    if (tree.addDepartment(name, parent, error)) {
+   cout << "Department added.\n";
+  } else {
+   cout << "Error: " << error << "\n";
+ }
+}
+
+//searcdxh for the department
+void searchDepartmentMenu(DepartmentTree& tree) {
+ string name;
+  cout << "Enter department name: ";
+ getline(cin, name);
+    if (isBlank(name)) {
+  cout << "Error: department name cannot be blank.\n";
+return;
+}
+tree.searchAndDisplay(name);
+}
+int main(int argc, char* argv[]) {
+    string dataDir = "data";
+    if (argc > 1) {
+        dataDir = argv[1];
+    }
+
+ DepartmentTree tree;
+    int deptAccepted = 0, deptRejected = 0;
+    tree.loadFromFile(dataDir + "/departments.txt", "departments.txt",
+                      deptAccepted, deptRejected);
+    cout << "departments.txt: " << deptAccepted << " accepted, "
+         << deptRejected << " rejected\n";
+
+
+    int choice = -1;
+    do {
+
+ cout << "6. Add department\n";
+        cout << "7. Search department\n";
+        cout << "8. Display department hierarchy\n";
+        cout << "9. Run preorder traversal\n";
+
+ cout << "0. Exit\n";
+        cout << "Enter your choice: ";
+
+ switch (choice) {
+
+
+  case 6: addDepartmentMenu(tree); break;
+            case 7: searchDepartmentMenu(tree); break;
+            case 8: tree.displayHierarchy(); break;
+            case 9: tree.printSequence("Preorder", tree.preorder()); break;
+
+ case 0: cout << "Goodbye.\n"; break;
+            default: cout << "Invalid choice. Please enter 0 to 9.\n"; break;
+        }
+    } while (choice != 0);
+
+    return 0;
 }
 
