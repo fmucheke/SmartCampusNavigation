@@ -13,6 +13,7 @@ Member B – Franklin Mucheke
 Assigned Modules:
 
 - Campus graph
+- Graph loader
 - BFS reachability
 
 Member C – Samriddi Upreti
