@@ -1,0 +1,6 @@
+# Collision and validation test
+F001|Study Room A|Library|Study
+F039|Study Room B|Library|Study
+f001|Duplicate Study Room|Library|Study
+004|Invalid ID Room|Library|Study
+F002|Computer Lab|Engineering Building|Technology
