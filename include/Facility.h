@@ -1,3 +1,6 @@
+// File: Facility.h
+// Author: Urisha Shrestha
+// Purpose: Defines the Facility class and stores facility information.
 #ifndef FACILITY_H
 #define FACILITY_H
 
