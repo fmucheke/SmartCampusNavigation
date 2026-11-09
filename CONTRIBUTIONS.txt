@@ -2,12 +2,14 @@ Team Contributions
 
 Member A – Urisha Shrestha
 Assigned Modules:
-
 - Facility records and Facility class
 - Custom hash table
 - Facility ID search
 - Facility name and category search
 - Facility category report
+
+Contribution Description:
+My main responsibilities for this project were Facility Management and Hash Table functionality. I worked on the Facility, FacilityManager, and HashTable components, which handle loading, storing, validating, displaying and searching facility records. I also worked on facility category reports and hash table statistics.I tested facility data validation to make sure the program correctly handled duplicate IDs, invalid IDs, and missing files. I created a collision test dataset containing the four required files and successfully verified that the program reported three accepted facilities, two rejected facilities, and one hash collision. I also updated the facility loading function so that it displays zero accepted and rejected facilities, along with the hash table statistics, when the facility file cannot be opened. I also worked on main file to help integrate the facility management functionality into the main program and make the features accessible through the menu.Finally, I compiled and tested the updated project using Visual Studio Code to make sure my assigned components worked correctly. 
 
 Member B – Franklin Mucheke
 Assigned Modules:
