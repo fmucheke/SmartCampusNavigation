@@ -1,0 +1,7 @@
+# Facility validation test
+F001|Main Reading Room|Library|Library
+F004|Computer Lab A|Engineering Building|Computer Lab
+f001|Duplicate Reading Room|Library|Library
+ABC|Invalid ID Room|Library|Library
+F005|Unknown Building Room|FakeBuilding|Classroom
+F006||Library|Library
