@@ -1,3 +1,6 @@
+// File: HashTable.cpp
+// Author: Urisha Shrestha
+// Purpose: Implements hash table insertion, searching, and collision handling.
 #include "HashTable.h"
 
 #include <cctype>

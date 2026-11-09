@@ -1,3 +1,6 @@
+// File: FacilityManager.cpp
+// Author: Urisha Shrestha
+// Purpose: Implements facility loading, validation, searching, and reporting.
 #include "FacilityManager.h"
 #include "FileUtils.h"
 
