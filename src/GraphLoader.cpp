@@ -1,3 +1,7 @@
+// File: GraphLoader.cpp
+// Author: Franklin Mucheke
+// Purpose: Loads and validates building and connection records.
+
 #include "GraphLoader.h"
 #include "FileUtils.h"
 #include <fstream>

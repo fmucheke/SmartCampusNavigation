@@ -1,3 +1,7 @@
+// File: CampusGraph.cpp
+// Author: Franklin Mucheke
+// Purpose: Implements the campus graph, adjacency lists, and BFS.
+
 #include "CampusGraph.h"
 #include "FileUtils.h"
 #include <iostream>

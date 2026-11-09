@@ -1,3 +1,7 @@
+// File: GraphLoader.h
+// Author: Franklin Mucheke
+// Purpose: Declares the building and connection file loaders.
+
 #ifndef GRAPH_LOADER_H
 #define GRAPH_LOADER_H
 #include "CampusGraph.h"

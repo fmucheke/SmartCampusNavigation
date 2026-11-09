@@ -1,3 +1,7 @@
+// File: CampusGraph.h
+// Author: Franklin Mucheke
+// Purpose: Declares the campus graph class and its operations.
+
 #ifndef CAMPUSGRAPH_H
 #define CAMPUSGRAPH_H
 

@@ -1,3 +1,6 @@
+// File: main.cpp
+// Authors: Urisha Shrestha, Franklin Mucheke, Samriddi Upreti
+// Purpose: Coordinates file loading and the Milestone 1 main menu.
 #include <iostream>
 #include <string>
 #include <limits>
@@ -158,7 +161,6 @@ int main(int argc, char* argv[]) {
 
             // MEMBER A: Display all facilities
             case 1:
-                cout << "\nAll Campus Facilities:\n";
                 facilityManager.displayAll();
                 break;
 
