@@ -250,3 +250,244 @@ Result:      PASS
 - **Expected:** The building and connection loaders report missing files, each with 0 accepted and 0 rejected. The program continues without crashing, displays an empty graph, reports zero buildings and connections and exits normally.
 - **Actual:** Both graph loaders reported file-opening errors and `0 accepted, 0 rejected`. Option 3 displayed `There are no buildings`. Option 4 reported `Total Buildings: 0` and `Total Connections: 0`. The program exited normally using option 10.
 - **Result:** PASS
+
+
+## Facility Management and Hash Table – Member A: Urisha Shrestha
+
+**Environment:** macOS, Visual Studio Code Terminal, GCC C++17
+
+**Compilation Command:** `g++ -std=c++17 -Iinclude src/*.cpp -o smartcampus_test`
+
+### Test 1: Project Compilation
+
+**Description:** Compile the integrated Smart Campus Navigation project.
+
+**Input:** `g++ -std=c++17 -Iinclude src/*.cpp -o smartcampus_test`
+
+**Expected:** All source files compile without errors.
+
+**Actual:** The project compiled successfully without errors.
+
+**Result:** PASS
+
+### Test 2: Normal Facility Data Loading
+
+**Description:** Verify that the program correctly loads valid facility records.
+
+**Input:** Run the program with the normal `data/facilities.txt` dataset.
+
+**Expected:** 10 facilities accepted and 0 rejected.
+
+**Actual:** 10 facilities accepted and 0 rejected during earlier branch testing.
+
+**Result:** PASS (earlier branch)
+
+### Test 3: Display All Facilities
+
+**Description:** Verify that the program displays all loaded facility records.
+
+**Input:** Menu option `1`
+
+**Expected:** Display all 10 facilities and the total count.
+
+**Actual:** All facilities were displayed, with `Total facilities: 10`, during earlier branch testing.
+
+**Result:** PASS (earlier branch)
+
+### Test 4: Search for an Existing Facility ID
+
+**Description:** Verify that searching for an existing facility ID returns the correct information.
+
+**Input:** Menu option `2`, then `F001`
+
+**Expected:** Display facility F001 with its name, building, and category.
+
+**Actual:** The program displayed F001, Main Reading Room, Building: Library, Category: Library.
+
+**Result:** PASS
+
+### Test 5: Case-Insensitive Facility ID Search
+
+**Description:** Verify that lowercase facility IDs are recognized.
+
+**Input:** Menu option `2`, then `f001`
+
+**Expected:** Find facility F001 regardless of capitalization.
+
+**Actual:** The program found F001 and displayed its facility details.
+
+**Result:** PASS
+
+### Test 6: Search for a Nonexistent Facility ID
+
+**Description:** Verify that searching for an ID that does not exist displays the correct message.
+
+**Input:** Menu option `2`, then `F999`
+
+**Expected:** Facility not found message.
+
+**Actual:** `Facility F999 not found.`
+
+**Result:** PASS
+
+### Test 7: Invalid Facility ID Search
+
+**Description:** Verify that incorrectly formatted facility IDs are rejected.
+
+**Input:** Menu option `2`, then `ABC`
+
+**Expected:** Display an invalid ID format message.
+
+**Actual:** `Invalid facility ID format. Use F followed by three digits.`
+
+**Result:** PASS
+
+### Test 8: Blank Facility ID Search
+
+**Description:** Verify that an empty facility ID is rejected.
+
+**Input:** Menu option `2`, then press Enter without typing an ID.
+
+**Expected:** Invalid ID format message and return to the menu.
+
+**Actual:** `Invalid facility ID format. Use F followed by three digits.`
+
+**Result:** PASS
+
+### Test 9: Hash Table Collision Handling
+
+**Description:** Verify that two different facility IDs can be stored when they produce a hash collision.
+
+**Input:** `./smartcampus_test testdata/collision`, containing F001 and F039.
+
+**Expected:** Both valid IDs are accepted and one collision is recorded.
+
+**Actual:** Hash table capacity: 101, entries: 3, collisions: 1.
+
+**Result:** PASS
+
+### Test 10: Duplicate Facility ID Validation
+
+**Description:** Verify that duplicate facility IDs are rejected regardless of capitalization.
+
+**Input:** `f001|Duplicate Study Room|Library|Study`
+
+**Expected:** Duplicate ID is rejected without increasing the collision count.
+
+**Actual:** `Duplicate facility ID: F001`. Collision count remained 1.
+
+**Result:** PASS
+
+### Test 11: Invalid Facility ID in File
+
+**Description:** Verify that incorrectly formatted IDs in the facility data file are rejected.
+
+**Input:** `004|Invalid ID Room|Library|Study`
+
+**Expected:** Invalid ID rejected.
+
+**Actual:** `Invalid facility ID format: 004`
+
+**Result:** PASS
+
+### Test 12: Facility Loading Validation
+
+**Description:** Verify that valid and invalid facility records are counted correctly.
+
+**Input:** `./smartcampus_test testdata/collision`
+
+**Expected:** 3 accepted facilities and 2 rejected facilities.
+
+**Actual:** Facilities accepted: 3. Facilities rejected: 2.
+
+**Result:** PASS
+
+### Test 13: Facility Name and Category Search
+
+**Description:** Verify that facility name and category searches work regardless of capitalization.
+
+**Input:** Search for `main reading room` and category `library`.
+
+**Expected:** Name search finds F001; category search finds the two Library-category facilities.
+
+**Actual:** Name search found F001, Main Reading Room. Category search found F001 and F010, Research Help Desk.
+
+**Result:** PASS (earlier local test)
+
+### Test 14: Facility Category Report
+
+**Description:** Verify that the category report displays correct facility counts and percentages.
+
+**Input:** Run the facility category report using the normal dataset.
+
+**Expected:** All categories displayed with counts and percentages totaling 10 facilities and 100%.
+
+**Actual:**
+
+| Category | Count | Percentage |
+|---|---:|---:|
+| Library | 2 | 20.0% |
+| Tutoring Center | 1 | 10.0% |
+| Student Services Office | 1 | 10.0% |
+| Computer Lab | 2 | 20.0% |
+| Classroom | 3 | 30.0% |
+| Recreation | 1 | 10.0% |
+| **Total** | **10** | **100.0%** |
+
+**Result:** PASS (earlier local test)
+
+### Test 15: Invalid Facility Records
+
+**Description:** Verify that invalid records are rejected while valid facilities remain available.
+
+**Input:** `testdata/member_a_invalid/facilities.txt`
+
+**Expected:** Reject duplicate IDs, invalid IDs, unknown building references, and blank facility names.
+
+**Actual:** 2 facilities accepted and 4 rejected. Hash table entries: 2, collisions: 0.
+
+**Result:** PASS (earlier local test)
+
+### Test 16: Missing Facility File
+
+**Description:** Verify that the program handles a missing `facilities.txt` file without crashing.
+
+**Input:** `./smartcampus_test testdata/missing_facility`
+
+**Expected:** Display a missing-file error, zero accepted and rejected facilities, and empty hash table statistics.
+
+**Actual:**
+- `Could not open: testdata/missing_facility/facilities.txt`
+- Facilities accepted: 0
+- Facilities rejected: 0
+- Capacity: 101
+- Entries: 0
+- Collisions: 0
+
+**Result:** PASS
+
+### Test 17: Normal Program Exit
+
+**Description:** Verify that the program exits normally after testing.
+
+**Input:** Menu option `10`
+
+**Expected:** Display an exit message and return to the terminal without crashing.
+
+**Actual:** `Exiting program...` was displayed, and control returned to the terminal.
+
+**Result:** PASS
+
+---
+
+## Testing Summary
+
+**Total Tests Documented:** 17
+
+**Passed:** 17 (including earlier-branch tests)
+
+**Failed:** 0
+
+I tested the Facility Management and Hash Table components using Visual Studio Code on macOS. Testing included loading and displaying facilities, searching by ID, handling duplicate and invalid IDs, checking hash collisions, searching by name and category, generating category reports, and handling missing files.
+
+The collision test correctly reported 3 accepted facilities, 2 rejected facilities, and 1 hash collision. The missing-file test also passed, displaying zero accepted and rejected facilities and an empty hash table.
