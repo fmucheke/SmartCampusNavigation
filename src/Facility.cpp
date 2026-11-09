@@ -1,3 +1,6 @@
+// File: Facility.cpp
+// Author: Urisha Shrestha
+// Purpose: Implements the Facility class constructor, getters, and display function.
 #include "Facility.h"
 #include <iostream>
 
