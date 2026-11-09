@@ -1,3 +1,6 @@
+// File: HashTable.h
+// Author: Urisha Shrestha
+// Purpose: Defines the custom hash table used to store and search facilities by ID.
 #include "HashTable.h"
 
 #include <cctype>
