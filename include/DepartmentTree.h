@@ -29,12 +29,12 @@ public:
     DepartmentTree(const DepartmentTree&) = delete;
     DepartmentTree& operator=(const DepartmentTree&) = delete;
 
-    // TREE-2: Reads departments from file and counts accepted and rejected.
+    // tree2 Reads departments from file and counts accepted and rejected.
     void loadFromFile(const std::string& path,
                       const std::string& displayName,
                       int& accepted, int& rejected);
 
-    // TREE-3: Adds department to the tree.
+    // tree 3 Adds department to the tree.
     // If tree is empty, first department will be the root.
     bool addDepartment(const std::string& name,
                        const std::string& parentName,
@@ -48,14 +48,23 @@ public:
     // Gets how deep the department is from root.
     int getDepth(const DepartmentNode* node) const;
 
-    // TREE-4: Searches department and shows its information.
+    // tree 4  Searches department and shows its information.
     void searchAndDisplay(const std::string& name) const;
 
-    // TREE-5: Shows departments in hierarchy with 4 spaces for each level.
+    // tree 5  Shows departments in hierarchy with 4 spaces for each level.
     void displayHierarchy() const;
 
-    // TREE-6: Gets the departments in preorder.
+    // tree 6  Gets the departments in preorder.
     std::vector<std::string> preorder() const;
+
+// tree 7 gets the departments in postorder children and then parent 
+std::vector<std::string> postorder() const;
+
+    // tree 7 gets department in level order usinf queue
+    std::vector<std::string> levelOrder() const;
+
+    // tree 8 shows total deartment , leafc counts nad trees height
+    void displayStatistics() const;
 
     // Prints the preorder departments without spaces for levels.
     void printSequence(const std::string& title,
@@ -71,6 +80,12 @@ private:
     void displayHelper(const DepartmentNode* node, int depth) const;
     void preorderHelper(const DepartmentNode* node,
                         std::vector<std::string>& out) const;
+//  helper functions for postorder and statistics
+    void postorderHelper(const DepartmentNode* node,
+                         std::vector<std::string>& out) const;
+    int countLeaves(const DepartmentNode* node) const;
+    int heightHelper(const DepartmentNode* node) const;
+
 };
 
 #endif
