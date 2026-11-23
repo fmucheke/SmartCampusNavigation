@@ -11,6 +11,8 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <queue>
+
 
 // Makes a empty department tree.
 DepartmentTree::DepartmentTree() {
@@ -323,11 +325,110 @@ void DepartmentTree::preorderHelper(
     }
 }
 
-// Gets the department names in preorder.
+// Ggets the department names in preorder.
 std::vector<std::string> DepartmentTree::preorder() const {
     std::vector<std::string> result;
     preorderHelper(root, result);
     return result;
+}
+
+// visits all the childrens first and then the parent
+void DepartmentTree::postorderHelper(
+    const DepartmentNode* node,
+    std::vector<std::string>& out) const {
+
+    if (node == nullptr) {
+        return;
+    }
+
+    for (const DepartmentNode* child : node->children) {
+        postorderHelper(child, out);
+    }
+
+    out.push_back(node->name);
+}
+
+// gets the department names in postorder
+std::vector<std::string> DepartmentTree::postorder() const {
+    std::vector<std::string> result;
+    postorderHelper(root, result);
+    return result;
+}
+
+// gets a department names level by level using a queue
+std::vector<std::string> DepartmentTree::levelOrder() const {
+    std::vector<std::string> result;
+
+    if (root == nullptr) {
+        return result;
+    }
+
+    std::queue<const DepartmentNode*> pending;
+    pending.push(root);
+
+    while (!pending.empty()) {
+        const DepartmentNode* current = pending.front();
+        pending.pop();
+
+        result.push_back(current->name);
+
+        // Children are added in insertion order
+        for (const DepartmentNode* child : current->children) {
+            pending.push(child);
+        }
+    }
+
+    return result;
+}
+
+// counts nodes that have no children
+int DepartmentTree::countLeaves(const DepartmentNode* node) const {
+    if (node == nullptr) {
+        return 0;
+    }
+
+    if (node->children.empty()) {
+        return 1;
+    }
+
+    int total = 0;
+    for (const DepartmentNode* child : node->children) {
+        total += countLeaves(child);
+    }
+
+    return total;
+}
+
+//  finds the height 
+int DepartmentTree::heightHelper(const DepartmentNode* node) const {
+    if (node == nullptr) {
+        return -1;
+    }
+
+    int tallest = 0;
+    for (const DepartmentNode* child : node->children) {
+        int h = heightHelper(child) + 1;
+        if (h > tallest) {
+            tallest = h;
+        }
+    }
+
+    return tallest;
+}
+
+//  Shows total departmentsand leaves and height
+void DepartmentTree::displayStatistics() const {
+    if (isEmpty()) {
+        std::cout << "No departments are loaded.\n";
+        std::cout << "Total departments: 0\n";
+        std::cout << "Leaf departments: 0\n";
+        std::cout << "Tree height: N/A\n";
+        return;
+    }
+
+    std::cout << "Total departments: " << nodeCount << "\n";
+    std::cout << "Leaf departments: " << countLeaves(root) << "\n";
+    std::cout << "Tree height: " << heightHelper(root) << "\n";
 }
 
 // Prints the traversal as a sequence without indentation.
