@@ -35,6 +35,10 @@ Wrote and organized the README.txt with project details and instructions for run
 Prepared the test_results.txt with test cases, expected outputs, and recorded results for Milestone 1.
 
 Worked on testing and documenting the department tree functions.
+Final progress :
+- Added postorder and level-order traversals (level-order uses a queue)
+- Added department statistics: total departments, leaves, height
+- Updated DepartmentTree.h and DepartmentTree.cpp
 
 Shared Work – All Team Members
 - File-loading utilities
