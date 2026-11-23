@@ -26,16 +26,18 @@ Assigned Modules:
 - Tree traversals
 - Department statistics
 
+Contribution Description:
+My main responsibility was the department tree. I built the DepartmentNode and DepartmentTree classes, which store the department hierarchy as a general tree where each node can have any number of children. I wrote the code that loads departments.txt and rejects bad records, such as wrong field counts, empty names, a missing NONE root, duplicate names and unknown parents, and prints the filename, line number and reason. I also implemented adding a department from the menu (the first department becomes the root without asking for a parent), searching by name, displaying the hierarchy with four spaces of indentation, and preorder traversal. For the Final, I added postorder and level-order traversals (level-order uses a queue) and department statistics showing total departments, leaves and height, including the empty and root-only cases. The destructor deletes all tree nodes. I tested the tree with the sample data and with my own test folders for an empty tree, a root-only tree and invalid data.
+
 Additional Contributions:
 
-Wrote the design_document.txt for Milestone 1.
+- Wrote the design_document.txt for Milestone 1.
+- Wrote and organized the README.txt with project details and instructions for running the program.
+- Prepared the test_results.txt with test cases, expected outputs and recorded results for Milestone 1.
+- Worked on testing and documenting the department tree functions.
 
-Wrote and organized the README.txt with project details and instructions for running the program.
+Final Progress:
 
-Prepared the test_results.txt with test cases, expected outputs, and recorded results for Milestone 1.
-
-Worked on testing and documenting the department tree functions.
-Final progress :
 - Added postorder and level-order traversals (level-order uses a queue)
 - Added department statistics: total departments, leaves, height
 - Updated DepartmentTree.h and DepartmentTree.cpp
