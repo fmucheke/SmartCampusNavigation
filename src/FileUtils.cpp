@@ -1,3 +1,7 @@
+// File: FileUtils.cpp
+// Author: Franklin Mucheke
+// Purpose: Implements shared string trimming and conversion to uppercase.
+
 #include "FileUtils.h"
 #include <cctype>
 
