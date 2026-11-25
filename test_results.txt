@@ -560,3 +560,116 @@ Test 23: Graph Connectivity Report — Empty Graph (RPT-2)
 I tested the Facility Management and Hash Table components using Visual Studio Code on macOS. Testing included loading and displaying facilities, searching by ID, handling duplicate and invalid IDs, checking hash collisions, searching by name and category, generating category reports, and handling missing files.
 
 The collision test correctly reported 3 accepted facilities, 2 rejected facilities, and 1 hash collision. The missing-file test also passed, displaying zero accepted and rejected facilities and an empty hash table.
+
+
+FINAL SUBMISSION - Department Tree (Member C: Samriddi Upreti)
+================================================================
+
+Environment: Windows, VS Code PowerShell, GCC C++17
+
+Test 21
+Description: Check postorder traversal using sample data.
+Input: .\campus.exe, option 13.
+Expected: Computer Science -> Electrical Engineering -> College of Engineering -> Mathematics -> Physics -> College of Science -> University
+Actual: Departments displayed in the expected postorder.
+Result: PASS
+
+Test 22
+Description: Check level-order traversal using sample data.
+Input: .\campus.exe, option 14.
+Expected: University -> College of Engineering -> College of Science -> Computer Science -> Electrical Engineering -> Mathematics -> Physics
+Actual: Departments displayed in the correct level-order.
+Result: PASS
+
+Test 23
+Description: Check department statistics using sample data.
+Input: .\campus.exe, option 15.
+Expected: Total departments: 7, Leaf departments: 4, Tree height: 2, Maximum number of children: 2.
+Actual: All statistics displayed correctly.
+Result: PASS
+
+Test 24
+Description: Check statistics when the department tree is empty.
+Input: .\campus.exe testdata/tree_empty, option 15.
+Expected: Total departments: 0, Leaf departments: 0, Tree height: N/A, Maximum number of children: 0.
+Actual: Correct statistics displayed for the empty tree.
+Result: PASS
+
+Test 25
+Description: Check statistics when the tree has only a root.
+Input: .\campus.exe testdata/tree_root_only, option 15.
+Expected: Total departments: 1, Leaf departments: 1, Tree height: 0, Maximum number of children: 0.
+Actual: All statistics matched the expected values.
+Result: PASS
+
+Test 26
+Description: Check postorder and level-order traversal on an empty tree.
+Input: .\campus.exe testdata/tree_empty, options 13 and 14.
+Expected: No departments are loaded.
+Actual: Both options displayed the expected message and returned to the menu without crashing.
+Result: PASS
+
+Test 27
+Description: Check postorder and level-order traversal on a root-only tree.
+Input: .\campus.exe testdata/tree_root_only, options 13 and 14.
+Expected: Only the root department is displayed.
+Actual: Both traversals displayed only the root department.
+Result: PASS
+
+Test 28
+Description: Check department statistics after adding a new department.
+Input: .\campus.exe, option 9, add Biology under College of Science, then option 15.
+Expected: Total departments: 8, Leaf departments: 5, Tree height: 2, Maximum number of children: 3.
+Actual: Statistics updated correctly after adding Biology.
+Result: PASS
+
+Test 29
+Description: Check traversals after adding a new department.
+Input: .\campus.exe, option 9, add Biology under College of Science, then options 13 and 14.
+Expected: Biology appears after Physics and before College of Science in postorder. Biology appears last in level-order.
+Actual: Both traversals displayed Biology in the correct position.
+Result: PASS
+
+Test 30
+Description: Check memory leaks and memory management using Valgrind.
+Input: valgrind --leak-check=full --show-leak-kinds=all ./campus
+Expected: All allocated memory is freed with no memory leaks or errors.
+Actual: Not run yet - to be run on UNT CELL or Linux.
+Result: NOT RUN
+
+Test 31
+Description: Check maximum number of children for different department trees.
+Input: Option 15 using sample data, empty tree, root-only tree and after adding Biology under College of Science.
+Expected: Maximum number of children should be 2, 0, 0 and 3 respectively.
+Actual: Maximum number of children displayed as 2, 0, 0 and 3 respectively.
+Result: PASS
+
+Test 32
+Description: Check maximum number of children when a department other than the root has the most children.
+Input: .\campus.exe testdata/tree_max_children, option 15.
+Expected: Total departments: 8, Leaf departments: 5, Tree height: 2, Maximum number of children: 4.
+Actual: All 8 department records were accepted. Total departments: 8, Leaf departments: 5, Tree height: 2, Maximum number of children: 4.
+Result: PASS
+
+Test 33
+Description: Check that the Milestone 1 department features still work with the Final menu numbers.
+Input: .\campus.exe, options 11 and 12, then option 10, search for Physics, option 9, add Biology under College of Science, then option 18.
+Expected: Hierarchy displayed with four-space indentation, correct preorder sequence, Physics found under College of Science, Biology added successfully, and program exits normally.
+Actual: Hierarchy displayed with correct indentation. Preorder matched the expected sequence. Physics was found under College of Science with 0 children and depth 2. Biology was added successfully, and the program exited normally.
+Result: PASS
+
+FINAL TEST SUMMARY - MEMBER C
+================================================================
+
+Total tests: 13
+Passed: 12
+Failed: 0
+Not run: 1
+
+Postorder traversal, level-order traversal and department statistics worked as expected. Empty trees, root-only trees and trees with newly added departments were also tested. The maximum number of children was calculated correctly for different tree structures.
+
+All Milestone 1 department features worked with the Final menu numbers, including adding departments, searching, displaying the hierarchy and preorder traversal.
+
+Valgrind memory leak testing still needs to be completed on UNT CELL or Linux.
+
+
