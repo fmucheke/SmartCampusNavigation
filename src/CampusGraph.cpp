@@ -212,6 +212,77 @@ void CampusGraph::ShortestPath(const string& start, const string& destination) c
     cout<<"Number of connections: "<<path.size()-1<< endl;
 }
 
+void CampusGraph::ConnectivityReport() const{
+    cout<<"Total buildings: "<<buildings.size()<<endl;
+    cout<<"Total connections: "<<ConnectionCount<<endl;
+
+    if(buildings.empty()){
+        cout<<"There are no loaded buildings"<< endl;
+        return;
+    }
+
+    int HighestDegree= 0;
+
+    for(int i= 0; i< static_cast<int>(buildings.size()); i++){
+        int degree= adjacencyList[i].size();
+
+        if(degree> HighestDegree){
+            HighestDegree= degree;
+        }
+    }
+
+    cout<<"Highest degree ( "<<HighestDegree<<" ): "<<endl;
+
+    for(int i=0; i< static_cast<int>(buildings.size()); i++){
+        if(static_cast<int>(adjacencyList[i].size())==HighestDegree){
+            cout<< buildings[i]<< endl;
+        }
+    }
+
+    cout<<"Isolated Buildings: "<<endl;
+
+    bool FoundIsolated= false;
+
+    for(int i=0; i< static_cast<int>(buildings.size()); i++){
+        if(adjacencyList[i].empty()){
+            cout<<buildings[i]<<endl;
+            FoundIsolated= true;
+        }
+    }
+
+    if(!FoundIsolated){
+        cout<<"None"<<endl;
+    }
+
+    int ComponentCount=0;
+    vector<bool> Visited(buildings.size(), false);
+    queue<int> UnexploredQueue;
+
+    for(int i=0; i< static_cast<int>(buildings.size()); i++){
+        if(!Visited[i]){
+            ComponentCount++;
+
+            Visited[i]= true;
+            UnexploredQueue.push(i);
+
+            while(!UnexploredQueue.empty()){
+                int current= UnexploredQueue.front();
+                UnexploredQueue.pop();
+
+                for(int neighbor: adjacencyList[current]){
+                    if(!Visited[neighbor]){
+                        Visited[neighbor]= true;
+                        UnexploredQueue.push(neighbor);
+                    }
+                }
+            }
+        
+        }
+    }
+
+    cout<<"Connected Components: "<<ComponentCount<<endl;
+}
+
 string CampusGraph::GetBuildingName(const string& name) const {
     int index= FindBuildingIndex(name);
 
