@@ -44,7 +44,10 @@ Additional Contributions:
 Final Progress:
 
 - Added postorder and level-order traversals (level-order uses a queue)
-- Added department statistics: total departments, leaves, height
+- Added department statistics: total departments, leaf departments, tree height and maximum number of children (height shows N/A for an empty tree)
+- Added the testdata/tree_max_children test folder
+- Connected Final menu options 3, 4, 13, 14, 15 and 16 in main.cpp
+- Wrote Final tests 21 to 33 in test_results.txt 
 - Updated DepartmentTree.h and DepartmentTree.cpp
 
 Shared Work – All Team Members
