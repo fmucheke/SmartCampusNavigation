@@ -190,7 +190,7 @@ int main(int argc, char* argv[]) {
                 break;
             }
 
-                       //  Search facility by complete name
+          // MEMBER A: Search facility by complete name
             case 3: {
                 string name;
 
@@ -206,7 +206,7 @@ int main(int argc, char* argv[]) {
                 break;
             }
 
-            // Search facility by complete category
+            // MEMBER A: Search facility by complete category
             case 4: {
                 string category;
 
