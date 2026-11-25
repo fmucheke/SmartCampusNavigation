@@ -26,6 +26,7 @@ public:
     void DisplayGraph() const;
     void DisplayDegrees() const;
     void BFS(const std:: string& start) const;
+    void ShortestPath(const std::string& start, const std::string& destination) const;
     std::string GetBuildingName(const std::string& name) const;
 
 

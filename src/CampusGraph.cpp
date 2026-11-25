@@ -6,6 +6,7 @@
 #include "FileUtils.h"
 #include <iostream>
 #include <queue>
+#include <algorithm>
 using namespace std;
 
 
@@ -150,6 +151,65 @@ void CampusGraph::BFS(const string& start) const{
 
     cout<<"Reachable Buildings: "<<reachableCount<<" out of "<<buildings.size()<<endl;
 
+}
+
+void CampusGraph::ShortestPath(const string& start, const string& destination) const{
+    int StartIndex= FindBuildingIndex(start);
+    int DestinationIndex= FindBuildingIndex(destination);
+
+    if(StartIndex==-1){
+        cout<<"Unknown starting building: "<<start<<endl;
+        return;
+    }
+
+    if(DestinationIndex==-1){
+        cout<<"Unknown destination building: "<<destination<<endl;
+        return;
+    }
+
+    queue<int> UnexploredQueue;
+    vector<bool> DiscoveredBuildings(buildings.size(), false);
+    vector<int> parent(buildings.size(), -1);
+
+    DiscoveredBuildings[StartIndex]=true;
+    UnexploredQueue.push(StartIndex);
+
+    while (!UnexploredQueue.empty()){
+        int current= UnexploredQueue.front();
+        UnexploredQueue.pop();
+
+        if(current== DestinationIndex){
+            break;
+        }
+
+        for(int neighbor: adjacencyList[current]){
+            if (!DiscoveredBuildings[neighbor]){
+                DiscoveredBuildings[neighbor]= true;
+                parent[neighbor]= current;
+                UnexploredQueue.push(neighbor);
+            }
+        }
+    }
+
+    if(!DiscoveredBuildings[DestinationIndex]){
+        cout<<"There is no path that exists between "<< buildings[StartIndex]<<" and "<<buildings[DestinationIndex]<<endl;
+        return;
+    }
+
+    vector<int> path;
+
+    for (int current= DestinationIndex; current!= -1; current= parent[current]){
+        path.push_back(current);
+    }
+
+    reverse(path.begin(), path.end());
+    cout<<"Shortest path: "<<endl;
+
+    for(int index: path){
+        cout<< buildings[index]<<endl;
+    }
+
+    cout<<"Number of connections: "<<path.size()-1<< endl;
 }
 
 string CampusGraph::GetBuildingName(const string& name) const {
