@@ -190,11 +190,37 @@ int main(int argc, char* argv[]) {
                 break;
             }
 
-            case 3:
-                break;
+                       //  Search facility by complete name
+            case 3: {
+                string name;
 
-            case 4:
+                cout << "\nEnter facility name: ";
+                getline(cin, name);
+
+                if (StandardizeName(name).empty()) {
+                    cout << "Error: Facility name cannot be blank.\n";
+                    break;
+                }
+
+                facilityManager.searchByName(name);
                 break;
+            }
+
+            // Search facility by complete category
+            case 4: {
+                string category;
+
+                cout << "\nEnter facility category: ";
+                getline(cin, category);
+
+                if (StandardizeName(category).empty()) {
+                    cout << "Error: Category cannot be blank.\n";
+                    break;
+                }
+
+                facilityManager.searchByCategory(category);
+                break;
+            }
 
             // GRAPH MEMBER: Display campus graph
             case 5:
@@ -267,21 +293,29 @@ int main(int argc, char* argv[]) {
                 tree.displayHierarchy();
                 break;
 
-            // DEPARTMENT MEMBER: Preorder traversal
+            //  Preorder traversal
             case 12:
                 tree.printSequence("Preorder", tree.preorder());
                 break;
             
+                       // Postorder traversal
             case 13:
+                tree.printSequence("Postorder", tree.postorder());
                 break;
 
+            //  Level-order traversal
             case 14:
+                tree.printSequence("Level-order", tree.levelOrder());
                 break;
 
+            //  Department statistics
             case 15:
+                tree.displayStatistics();
                 break;
 
+            //  Facility category report
             case 16:
+                facilityManager.categoryReport();
                 break;
 
             case 17:
