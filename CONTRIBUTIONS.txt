@@ -50,12 +50,19 @@ Final Progress:
 - Wrote Final tests 21 to 33 in test_results.txt 
 - Updated DepartmentTree.h and DepartmentTree.cpp
 
+
+Individual Reflection – Samriddi Upreti
+
+I worked on the department tree, tree traversals and department statistics. I also prepared the README, design document and test results for our project. While checking the department statistics against the requirements, I noticed that the maximum number of children was missing, so I added a function to calculate it. I reviewed Franklin's shortest path function and checked how it handled different inputs. Through this project, I learned more about general trees, recursion and how to combine different modules while working in a team.
+
+
 Shared Work – All Team Members
 - File-loading utilities
 - Main menu and program integration
 - Testing and debugging
 - Project documentation
 - Code review and collaboration
+
 
 Code Review
 
