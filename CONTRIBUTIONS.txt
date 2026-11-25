@@ -12,6 +12,11 @@ Assigned Modules:
 Contribution Description:
 My main responsibilities for this project were Facility Management and Hash Table functionality. I worked on the Facility, FacilityManager, and HashTable components, which handle loading, storing, validating, displaying and searching facility records. I also worked on facility category reports and hash table statistics.I tested facility data validation to make sure the program correctly handled duplicate IDs, invalid IDs, and missing files. I created a collision test dataset containing the four required files and successfully verified that the program reported three accepted facilities, two rejected facilities, and one hash collision. I also updated the facility loading function so that it displays zero accepted and rejected facilities, along with the hash table statistics, when the facility file cannot be opened. I also worked on main file to help integrate the facility management functionality into the main program and make the features accessible through the menu.Finally, I compiled and tested the updated project using Visual Studio Code to make sure my assigned components worked correctly. 
 
+For the final submission, I completed my assigned features, which included searching facilities by name and category and generating a facility category report. I updated the search functions to display all matching facilities regardless of capitalization and show the total number of matches. I also updated the category report to display the number of facilities in each category, their percentages and the overall total.
+
+Final Progress and Testing:
+After completing my assigned features, I tested each function individually and through the updated main menu using options 3, 4, and 16. I tested different inputs, including lowercase letters, multiple matches, nonexistent names and categories, and blank inputs. I also verified that the category report displayed the correct counts and percentages. All seven individual tests and nine menu integration tests passed successfully. Finally, I compiled and ran the updated project on my local machine to make sure all my assigned features were working correctly.
+
 Member B – Franklin Mucheke
 Assigned Modules:
 
