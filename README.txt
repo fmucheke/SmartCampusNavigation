@@ -2,140 +2,179 @@
 
 ## About Our Project
 
-This is a C++ project that helps people find facilities on a college campus. It also shows how buildings are connected and how different departments are organized.
+This is a C++ project that helps people find facilities on a college campus. It also shows how buildings are connected, finds the shortest path between buildings and displays how different departments are organized.
 
-We made this project to learn more about coding, data structures, and working together as a team.
+We made this project to learn more about data structures, problem-solving and working together as a team.
 
 ## What Our Program Does
 
-Our program allows users to:
+Our program has 18 menu options:
 
-1. View all campus facilities.
-2. Search for a facility using its ID.
-3. View campus buildings and their connections.
-4. Check the number of buildings and connections.
-5. Find which buildings can be reached from another building.
-6. Add a new department.
-7. Search for a department.
-8. View the department hierarchy.
-9. Display departments in preorder.
-10. Exit the program.
+1. View all facilities
+2. Search facility by ID
+3. Search facility by name
+4. Search facility by category
+5. View campus graph
+6. Display graph counts and degrees
+7. Find reachable buildings (BFS)
+8. Find shortest path
+9. Add department
+10. Search department
+11. Display department hierarchy
+12. Preorder traversal
+13. Postorder traversal
+14. Level-order traversal
+15. Department statistics
+16. Facility category report
+17. Graph connectivity report
+18. Exit
 
 ## How Our Program Works
 
 We used three main data structures.
 
-**Hash Table:** Helps us find facilities using their IDs.
+**Hash Table:** Helps us find facilities using their IDs. We created our own hash table and used separate chaining to handle collisions.
 
-**Graph:** Shows how campus buildings are connected. We use BFS to find which buildings can be reached from a starting building.
+**Graph:** Shows how campus buildings are connected. We use BFS to find reachable buildings, the shortest path and connected components.
 
-**Tree:** Helps us organize departments. For example, a university has different colleges, and each college has departments under it.
+**Tree:** Helps us organize departments. We use a general tree where each department can have multiple children. The program supports preorder, postorder and level-order traversals. It also displays the total departments, leaf departments, tree height and maximum number of children.
 
 ## Files We Used
 
-Our program reads four text files from the `data` folder.
+Our program reads four text files from the data folder in the following order:
 
-- `buildings.txt` – Lists campus buildings.
-- `connections.txt` – Shows which buildings are connected.
-- `facilities.txt` – Lists facilities and their locations.
-- `departments.txt` – Lists departments and their parent departments.
+- buildings.txt – Lists campus buildings.
+- connections.txt – Shows which buildings are connected.
+- facilities.txt – Lists facilities and their locations.
+- departments.txt – Lists departments and their parent departments.
 
-The program reads these files when it starts. If there is an incorrect record, it shows a warning and continues.
+The program reads these files when it starts. If there is an incorrect record, it displays a warning and continues loading the remaining records.
 
 ## Project Folders and Files
 
-- `src/` – Contains our C++ code.
-- `include/` – Contains our header files.
-- `data/` – Contains the campus information.
-- `testdata/` – Contains extra files for testing.
-- `README.txt` – Explains our project.
-- `CONTRIBUTIONS.txt` – Shows what each member worked on.
-- `design_document.txt` – Explains how we designed the program.
-- `test_results.txt` – Shows our testing results.
-- `.gitignore` – Keeps unnecessary files out of GitHub.
+- src/ – Contains our C++ code.
+- include/ – Contains our header files.
+- data/ – Contains the campus information.
+- testdata/ – Contains extra files for testing.
+- README.txt – Explains our project and how to run it.
+- CONTRIBUTIONS.txt – Shows each member's work, individual reflections and code review.
+- design_document.txt – Explains how we designed the program.
+- test_results.txt – Contains our testing results.
+- .gitignore – Keeps unnecessary files out of GitHub.
 
 ## How to Run Our Program
 
-We use the UNT CSE CELL machines at school to run our program.
+The program uses C++17 and can be compiled on the UNT CSE CELL machines.
 
-First, we log in to a CELL machine and open the terminal. Then we go to the folder where our project is saved.
+First, log in to a CELL machine and open the terminal. Go to the folder where the project is saved.
 
 **Step 1: Compile the program**
 
-```bash
-g++ -Iinclude src/*.cpp -o campus
+```
+g++ -std=c++17 -Iinclude src/*.cpp -o campus
 ```
 
-This puts our C++ files together and creates a program called `campus`.
+This compiles the C++ files and creates a program called campus.
 
 **Step 2: Run the program**
 
-```bash
+```
 ./campus
 ```
 
-This starts the program and loads the original campus information.
+This starts the program and loads the original campus information from the data folder.
 
 **Step 3: Run with test files**
 
-We can also use different files to test our program.
+We can also use different data folders to test the program.
 
 To test incorrect department records:
 
-```bash
+```
 ./campus testdata/tree_bad
 ```
 
 To test an empty department tree:
 
-```bash
+```
 ./campus testdata/tree_empty
 ```
 
 To test a tree with only one department:
 
-```bash
+```
 ./campus testdata/tree_root_only
 ```
 
-These commands help us check how our program works in different situations.
+To test the maximum number of children:
+
+```
+./campus testdata/tree_max_children
+```
+
+To test hash table collisions:
+
+```
+./campus testdata/collision
+```
+
+To test shortest paths with equal distances:
+
+```
+./campus testdata/graph_tie
+```
+
+To test a missing data folder:
+
+```
+./campus testdata/nofolder
+```
 
 ## How to Use the Program
 
-When the program starts, a menu appears.
+When the program starts, a menu appears. Enter a number from 1 to 18 to select an option.
 
-We enter a number to choose what we want to do. For example, entering 1 shows all facilities, entering 5 finds reachable buildings, and entering 8 displays the department hierarchy.
+For example, option 2 searches for a facility by ID, option 8 finds the shortest path between buildings and option 15 displays department statistics.
 
-After each task, the menu appears again. Enter 10 to exit the program.
+After each task, the menu appears again. Enter 18 to exit the program.
+
+Departments added through the menu are stored in memory only. They do not change the original departments.txt file.
 
 ## Testing
 
-We test our program to make sure it works correctly.
+We tested the program using normal data, invalid records, empty files and different user inputs.
 
-We check things like searching for facilities, finding connected buildings, adding departments, handling duplicate names, and entering incorrect information.
+Our testing includes:
 
-We also test what happens when a file is missing or a user enters an invalid option.
+- Facility searches and hash table collisions.
+- Facility category counts and percentages.
+- BFS reachability and shortest paths.
+- Graph connectivity and isolated buildings.
+- Department searches and traversals.
+- Department statistics.
+- Empty trees and root-only trees.
+- Missing files and invalid menu inputs.
 
-Our test results are recorded in `test_results.txt`.
+Our expected outputs, actual outputs and test results are recorded in test_results.txt.
 
 ## Team Contributions
 
-There are three members working on this project.
+**Member A – Urisha Shrestha**
 
-**Member A:** Works on facilities and the hash table.
+Worked on facilities, the custom hash table, facility searches and the facility category report.
 
-**Member B:** Works on campus buildings, connections, and BFS.
+**Member B – Franklin Mucheke**
 
-**Member C:** Works on the department tree, adding and searching for departments, and displaying the hierarchy.
+Worked on the campus graph, graph loading, BFS reachability, shortest path and graph connectivity report.
 
-We use GitHub to share our work and combine our code.
+**Member C – Samriddi Upreti**
 
-More information about each member's work is in `CONTRIBUTIONS.txt`.
+Worked on the department tree, department searches, tree traversals, department statistics and project documentation.
 
-## Milestone 1
+All members contributed to testing, debugging and combining the modules. More information about each member's work is in CONTRIBUTIONS.txt.
 
-For Milestone 1, we worked on the main parts of our program. We focused on loading files, searching for facilities, showing building connections, finding reachable buildings, and organizing departments.
+## Final Submission
 
-We also added a menu so users can choose what they want to do.
+For the Final submission, we expanded the features from Milestone 1. We added facility name and category searches, shortest path, postorder and level-order traversals, department statistics, facility category reports and graph connectivity reports.
 
-We will add more features for the final project.
+The updated menu combines all these features into one program.
