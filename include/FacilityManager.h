@@ -1,6 +1,6 @@
 // File: FacilityManager.h
 // Author: Urisha Shrestha
-// Purpose: Declares facility management, searching, validation, and reporting functions
+// Purpose: Declares facility management, searching, validation, and reporting functions.
 #ifndef FACILITYMANAGER_H
 #define FACILITYMANAGER_H
 
