@@ -56,3 +56,23 @@ Shared Work – All Team Members
 - Testing and debugging
 - Project documentation
 - Code review and collaboration
+
+Code Review
+
+Reviewer: Samriddi Upreti
+Module reviewed: Franklin Mucheke's ShortestPath (CampusGraph.cpp)
+Date: November 25, 2026
+
+What I checked:
+
+BFS logic, shortest path, unknown buildings and disconnected buildings.
+
+What worked well:
+
+The shortest path was correct, and invalid inputs were handled properly.
+
+Suggestions or issues found:
+
+The error message when no path exists could be shorter and simpler.
+
+Result: All the cases I tested worked as expected. No bugs were found.
