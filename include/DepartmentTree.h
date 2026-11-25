@@ -86,6 +86,9 @@ private:
     int countLeaves(const DepartmentNode* node) const;
     int heightHelper(const DepartmentNode* node) const;
 
+ //added helper for maximum children
+    int maxChildren(const DepartmentNode* node) const;
+
 };
 
 #endif
