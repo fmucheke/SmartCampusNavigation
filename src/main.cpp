@@ -1,6 +1,6 @@
 // File: main.cpp
 // Authors: Urisha Shrestha, Franklin Mucheke, Samriddi Upreti
-// Purpose: Coordinates file loading and the Milestone 1 main menu.
+// Purpose: Coordinates file loading and the final main menu.
 #include <iostream>
 #include <string>
 #include <limits>
@@ -67,12 +67,12 @@ void searchDepartmentMenu(DepartmentTree& tree) {
     tree.searchAndDisplay(name);
 }
 
-// Read a menu choice, including option 10
+// Read a menu choice
 int readChoice() {
     string line;
 
     if (!getline(cin, line)) {
-        return 10;
+        return 18;
     }
 
     line = TrimWhiteSpace(line);
@@ -87,15 +87,22 @@ int readChoice() {
         }
     }
 
-    if (line == "10") {
-        return 10;
+    int choice=0;
+
+    for (char c : line) {
+        choice= choice*10 + (c-'0');
+
+        if(choice>18){
+            return -1;
+        }
     }
 
-    if (line.size() == 1) {
-        return line[0] - '0';
+    if (choice<1 || choice>18){
+        return -1;
     }
 
-    return -1;
+    return choice;
+
 }
 
 int main(int argc, char* argv[]) {
@@ -144,14 +151,22 @@ int main(int argc, char* argv[]) {
         cout << "\n========== Smart Campus Navigation ==========\n";
         cout << "1. View all facilities\n";
         cout << "2. Search facility by ID\n";
-        cout << "3. View campus graph\n";
-        cout << "4. Display graph counts and degrees\n";
-        cout << "5. Find reachable buildings (BFS)\n";
-        cout << "6. Add department\n";
-        cout << "7. Search department\n";
-        cout << "8. Display department hierarchy\n";
-        cout << "9. Run preorder traversal\n";
-        cout << "10. Exit\n";
+        cout << "3. Search facility by name\n";
+        cout << "4. Search facility by category\n";
+        cout << "5. View campus graph\n";
+        cout << "6. Display graph counts and degrees\n";
+        cout << "7. Find reachable buildings(BFS)\n";
+        cout << "8. Find shortest path\n";
+        cout << "9. Add department\n";
+        cout << "10. Search department\n";
+        cout << "11. Display department hierarchy\n";
+        cout << "12. Preorder traversal\n";
+        cout << "13. Postorder traversal\n";
+        cout << "14. Level-order traversal\n";
+        cout << "15. Department statistics\n";
+        cout << "16. Facility category report\n";
+        cout << "17. Graph connectivity report\n";
+        cout << "18. Exit\n";
         cout << "=============================================\n";
         cout << "Enter your choice: ";
 
@@ -175,20 +190,26 @@ int main(int argc, char* argv[]) {
                 break;
             }
 
-            // GRAPH MEMBER: Display campus graph
             case 3:
+                break;
+
+            case 4:
+                break;
+
+            // GRAPH MEMBER: Display campus graph
+            case 5:
                 cout << "\nCampus Graph:\n";
                 graph.DisplayGraph();
                 break;
 
             // GRAPH MEMBER: Display degrees
-            case 4:
+            case 6:
                 cout << "\nGraph Counts and Degrees:\n";
                 graph.DisplayDegrees();
                 break;
 
             // GRAPH MEMBER: BFS traversal
-            case 5: {
+            case 7: {
                 string start;
 
                 cout << "Enter the starting building: ";
@@ -205,27 +226,69 @@ int main(int argc, char* argv[]) {
                 break;
             }
 
+            case 8:{
+                string start;
+                string destination;
+
+                cout<<"Enter the starting building: "<<endl;
+                getline(cin, start);
+                start= TrimWhiteSpace(start);
+
+                if(start.empty()){
+                    cout<<"Invalid, start building cannot be empty"<<endl;
+                    break;
+                }
+
+                cout<<"Enter the destination building: "<<endl;
+                getline(cin, destination);
+                destination= TrimWhiteSpace(destination);
+
+                if (destination.empty()){
+                    cout<<"Invalid, destination building cannot be empty"<<endl;
+                    break;
+                }
+
+                graph.ShortestPath(start,destination);
+                break;
+            }
+
             // DEPARTMENT MEMBER: Add department
-            case 6:
+            case 9:
                 addDepartmentMenu(tree);
                 break;
 
             // DEPARTMENT MEMBER: Search department
-            case 7:
+            case 10:
                 searchDepartmentMenu(tree);
                 break;
 
             // DEPARTMENT MEMBER: Display hierarchy
-            case 8:
+            case 11:
                 tree.displayHierarchy();
                 break;
 
             // DEPARTMENT MEMBER: Preorder traversal
-            case 9:
+            case 12:
                 tree.printSequence("Preorder", tree.preorder());
                 break;
+            
+            case 13:
+                break;
 
-            case 10:
+            case 14:
+                break;
+
+            case 15:
+                break;
+
+            case 16:
+                break;
+
+            case 17:
+                graph.ConnectivityReport();
+                break;
+
+            case 18:
                 cout << "Exiting program...\n";
                 break;
 
@@ -234,7 +297,7 @@ int main(int argc, char* argv[]) {
                 break;
         }
 
-    } while (choice != 10);
+    } while (choice != 18);
 
     return 0;
 }
