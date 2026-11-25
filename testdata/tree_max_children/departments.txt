@@ -1,0 +1,8 @@
+University|NONE
+College of Engineering|University
+College of Science|University
+Computer Science|College of Engineering
+Electrical Engineering|College of Engineering
+Mechanical Engineering|College of Engineering
+Civil Engineering|College of Engineering
+Physics|College of Science
