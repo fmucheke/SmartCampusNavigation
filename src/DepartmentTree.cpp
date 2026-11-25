@@ -415,6 +415,23 @@ int DepartmentTree::heightHelper(const DepartmentNode* node) const {
 
     return tallest;
 }
+// added function to find maximum number of children
+int DepartmentTree::maxChildren(const DepartmentNode* node) const {
+    if (node == nullptr) {
+        return 0;
+    }
+
+    int maximum = static_cast<int>(node->children.size());
+
+    for (const DepartmentNode* child : node->children) {
+        int count = maxChildren(child);
+        if (count > maximum) {
+            maximum = count;
+        }
+    }
+
+    return maximum;
+}
 
 //  Shows total departmentsand leaves and height
 void DepartmentTree::displayStatistics() const {
@@ -423,12 +440,14 @@ void DepartmentTree::displayStatistics() const {
         std::cout << "Total departments: 0\n";
         std::cout << "Leaf departments: 0\n";
         std::cout << "Tree height: N/A\n";
+       std::cout << "Maximum number of children: 0\n";
         return;
     }
 
     std::cout << "Total departments: " << nodeCount << "\n";
     std::cout << "Leaf departments: " << countLeaves(root) << "\n";
     std::cout << "Tree height: " << heightHelper(root) << "\n";
+  std::cout << "Maximum number of children: " << maxChildren(root) << "\n";
 }
 
 // Prints the traversal as a sequence without indentation.
