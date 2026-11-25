@@ -1,360 +1,112 @@
-# DESIGN DOCUMENT - Smart Campus Navigation (Final Submission)
+# DESIGN DOCUMENT – Smart Campus Navigation (Final Submission)
 
 Team: Urisha Shrestha, Franklin Mucheke, Samriddi Upreti
 
-## 1. WHAT THE PROGRAM DOES
+## 1. PROGRAM OVERVIEW
 
-Our program helps people find their way around a college campus. Users can search for facilities, see how buildings are connected, find the shortest path between two buildings and explore how departments are organized.
+Our program helps users find campus facilities, navigate between buildings and explore the university's department structure.
 
-The program reads information from four text files in the following order:
+We used three main data structures: a custom hash table, a graph and a general tree.
 
-- buildings.txt
-- connections.txt
-- facilities.txt
-- departments.txt
+The program loads buildings.txt, connections.txt, facilities.txt and departments.txt in that order. Incorrect records are rejected with warnings, while valid records continue to load.
 
-We load the buildings first because the program needs to know which buildings exist before adding connections and facilities.
-
-After reading each file, the program shows how many records were accepted and rejected. If something is wrong with a record, it displays the file name, line number and reason. It continues reading the rest of the file instead of stopping.
-
-For our Final submission, we expanded the program to have 18 menu options.
+The Final version contains 18 menu options.
 
 ## 2. HASH TABLE AND FACILITY MANAGEMENT
 
-We used a hash table to make searching for facilities by their IDs easier and faster.
+We created a custom hash table to make facility ID searches faster.
 
-Think of a hash table as a collection of numbered boxes. Instead of looking through every facility, the program calculates which box the facility belongs to and searches there.
+The hash function is:
 
-We created our own hash table without using a built-in library hash table.
+    h = 0
+    For each character c in the facility ID:
+        h = (h * 31 + c) % capacity
 
-A facility ID must start with F followed by three digits, such as F004. The program removes extra spaces and ignores capitalization, so f004 and F004 are treated as the same ID.
+The default capacity is 101 buckets and does not resize.
 
-### Hash Function
+We used separate chaining, where each bucket contains a vector of facilities. If two IDs go into the same bucket, both can still be stored. For example, F001 and F039 both go into bucket 16.
 
-The hash function helps the program decide which bucket (box) a facility belongs to.
+A collision is counted when a new facility is successfully inserted into an occupied bucket. Duplicate IDs are rejected.
 
-- Start with h = 0.
-- Read each character c in the facility ID.
-- Calculate h = (h * 31 + c) mod capacity.
-- Use the final value of h as the bucket number.
+Facility IDs are standardized before hashing. Name and category searches use linear search and ignore capitalization.
 
-Our hash table has 101 buckets by default.
-
-### Handling Collisions
-
-Sometimes two different facility IDs end up in the same bucket. This is called a collision.
-
-We used a method called separate chaining to handle this. Each bucket contains a vector that can hold multiple facilities. This means we do not have to reject a facility just because another facility is already in that bucket.
-
-For example, F001 and F039 both go into bucket 16.
-
-A collision is counted when a new facility is successfully added to a bucket that already contains another facility. Duplicate IDs are rejected and do not increase the collision count.
-
-The hash table does not resize, but the vectors inside the buckets can grow.
-
-### Searching for Facilities
-
-There are three ways to search for a facility:
-
-- By ID
-- By name
-- By category
-
-Searching by ID uses the hash table. Searching by name or category checks the facilities one by one, which is called linear search.
-
-The name and category searches ignore capitalization and display all exact matches. The program also shows how many matches were found.
-
-### Facility Category Report
-
-This report helps users understand what types of facilities are available on campus.
-
-The program groups facilities with the same category and counts how many belong to each group. It then calculates their percentages.
-
-Percentage = (Number of facilities in a category / Total facilities) * 100
-
-For example, if there are 10 facilities and 4 of them are laboratories, laboratories make up 40% of the facilities.
-
-The percentages are displayed with one decimal place. If there are no facilities, the program displays a message and a total of zero.
+The category report groups facilities by category and calculates their counts and percentages.
 
 ## 3. CAMPUS GRAPH
 
-We used a graph to represent the campus buildings and the walkways between them.
+We used an undirected graph to represent buildings and their connections. Each building has a list of neighboring buildings, called an adjacency list.
 
-Each building is a vertex, and each connection between two buildings is an edge.
+We chose an adjacency list because not every building is connected to every other building. It allows us to store only the connections that exist.
 
-We stored the graph using an adjacency list. This simply means that every building has its own list of neighboring buildings.
+Breadth-First Search (BFS) uses a queue to visit nearby buildings before moving farther away.
 
-We chose this method because not every building is connected to every other building. Storing only the existing connections saves memory compared to storing a full table of possible connections.
+The shortest path function also uses BFS. It remembers the previous building at each step and reconstructs the path once the destination is reached. The shortest path is based on the fewest connections.
 
-The connections work both ways. If Building A is connected to Building B, then Building B is also connected to Building A. However, this connection is counted only once.
-
-The program rejects duplicate connections, unknown buildings and connections from a building to itself.
-
-### BFS Reachability
-
-BFS stands for Breadth-First Search.
-
-It helps us find which buildings can be reached from a selected building. It starts by visiting the closest neighboring buildings before moving farther away.
-
-We used a queue for this process. A queue works like a line of people waiting for their turn. The building added first is processed first.
-
-The program keeps track of buildings it has already visited so that it does not visit the same building repeatedly.
-
-It also displays how many connections away each building is from the starting point and the total number of reachable buildings.
-
-### Shortest Path
-
-For the Final, we added a function that finds the shortest path between two buildings.
-
-We used BFS again because all connections in our graph are treated equally. The shortest path means the path with the fewest connections, not necessarily the shortest walking distance in meters.
-
-While searching, the program remembers which building it came from. Once it reaches the destination, it follows those buildings backward and reverses the result to show the path in the correct order.
-
-If there are multiple shortest paths, the program follows the order in which the connections were originally added.
-
-It also handles cases where a building does not exist, there is no available path or the starting and ending buildings are the same.
-
-### Graph Connectivity Report
-
-This report gives users an overview of how well the campus buildings are connected.
-
-It displays:
-
-- Total number of buildings.
-- Total number of connections.
-- Buildings with the most connections.
-- Buildings with no connections.
-- Number of connected components.
-
-A connected component is a group of buildings that can reach each other.
-
-For example, if five buildings are connected to each other but another building is completely separate, there are two connected components.
-
-The program uses BFS to identify and count these groups.
+The connectivity report displays building and connection counts, highest-degree buildings, isolated buildings and connected components.
 
 ## 4. DEPARTMENT TREE
 
-We used a general tree to organize the university departments.
+We used a general tree because a department can have multiple departments under it.
 
-A general tree is useful because a department can have more than one department under it. It is similar to how folders are organized inside other folders on a computer.
+Each node stores its department name, a parent pointer and a vector of children. The first accepted department becomes the root. Duplicate names and unknown parents are rejected.
 
-For example:
+The program supports adding departments, searching by name and displaying the hierarchy.
 
-    University
-        College of Engineering
-            Computer Science
-            Electrical Engineering
-        College of Science
-            Mathematics
-            Physics
+We implemented three traversals:
 
-Each department has a name, a pointer to its parent and a vector containing its children.
+- Preorder: Visits the parent before its children.
+- Postorder: Visits the children before their parent.
+- Level-order: Visits departments one level at a time.
 
-The University in this example is called the root because it is at the top of the tree.
+Preorder and postorder use recursion, while level-order uses a queue.
 
-The first accepted department from the file must have NONE as its parent. Every other department needs a parent that already exists.
+The department statistics show total departments, leaf departments, tree height and maximum number of direct children. Height is measured in edges and displays N/A for an empty tree.
 
-We do not allow duplicate department names, even if they have different capitalization.
+The destructor deletes child nodes before their parents to release allocated memory.
 
-### Adding and Searching Departments
+## 5. PROGRAM ORGANIZATION
 
-Users can add new departments through the menu.
+We separated the program into different classes so each team member could work on their assigned module.
 
-If the tree is empty, the first department becomes the root. Otherwise, the user needs to provide an existing parent department.
+- Facility, FacilityManager and HashTable manage facility records.
+- CampusGraph and GraphLoader manage buildings and connections.
+- DepartmentNode and DepartmentTree manage the department hierarchy.
+- FileUtils provides shared name-standardization functions.
+- main.cpp connects all modules and displays the menu.
 
-New departments are stored in memory while the program is running. They do not change the original departments.txt file.
+## 6. TIME COMPLEXITY
 
-When searching for a department, the program displays its name, parent, number of direct children and depth.
+F = Number of facilities
 
-Depth tells us how far a department is from the root.
+V = Number of buildings
 
-### Displaying the Hierarchy
+E = Number of connections
 
-The program displays the department hierarchy using four spaces of indentation for each level. This makes it easier to understand which departments belong under others.
+D = Number of departments
 
-### Tree Traversals
-
-A traversal is simply a way of visiting every department in the tree.
-
-We used three types of traversals:
-
-**Preorder:** Visits the parent first and then its children.
-
-**Postorder:** Visits the children first and then their parent.
-
-**Level-order:** Visits departments one level at a time, starting from the root.
-
-Preorder and postorder use recursion, which means a function calls itself to repeat the same task for smaller parts of the tree.
-
-Level-order uses a queue.
-
-All three traversals keep the departments in their original insertion order when visiting siblings.
-
-### Department Statistics
-
-For the Final, we added four statistics to help users understand the department structure.
-
-**Total departments:** Counts all the departments in the tree.
-
-**Leaf departments:** Counts departments that do not have any children.
-
-**Tree height:** Shows the longest distance from the root to a leaf, measured in edges.
-
-**Maximum number of children:** Finds the largest number of direct children belonging to any single department.
-
-Using the university example above, the statistics would be:
-
-- Total departments: 7
-- Leaf departments: 4
-- Tree height: 2
-- Maximum number of children: 2
-
-If the tree is empty, the counts are zero and the height is displayed as N/A.
-
-If there is only one department, the total departments and leaves are both one. The height and maximum number of children are zero.
-
-### Memory Management
-
-The department nodes are created in memory while the program runs.
-
-When the program closes, the destructor deletes the child departments first and then their parents. This releases the memory used by the department tree.
-
-## 5. MAIN CLASSES AND FILES
-
-Each class has its own responsibility. We separated the program into different files so that it would be easier to understand, test and make changes.
-
-- Facility: Stores information about one facility.
-- FacilityManager: Loads, displays and searches facilities. It also creates the category report.
-- HashTable: Stores facilities and helps find them by ID.
-- CampusGraph: Stores buildings and connections, performs BFS, finds shortest paths and creates the connectivity report.
-- GraphLoader: Reads and checks the building and connection files.
-- DepartmentNode: Stores information about one department.
-- DepartmentTree: Manages departments, traversals and department statistics.
-- FileUtils: Contains shared functions for removing extra spaces and changing letters to uppercase.
-- main.cpp: Loads the files, displays the menu and connects all parts of the program.
-
-## 6. WHO DID WHAT
-
-### Urisha Shrestha
-
-- Facility and FacilityManager.
-- Custom hash table.
-- Facility ID, name and category searches.
-- Facility category report.
-
-### Franklin Mucheke
-
-- CampusGraph and GraphLoader.
-- FileUtils.
-- BFS reachability.
-- Shortest path.
-- Graph connectivity report.
-
-### Samriddi Upreti
-
-- DepartmentNode and DepartmentTree.
-- Department loading, adding and searching.
-- Preorder, postorder and level-order traversals.
-- Department statistics.
-- Department memory management.
-- Project documentation.
-
-Everyone contributed to combining the modules, testing, debugging, documentation and code review.
-
-More details about individual contributions can be found in CONTRIBUTIONS.txt.
-
-## 7. TIME COMPLEXITY
-
-Time complexity helps us understand how much work the program needs to do when more data is added.
-
-For example, O(1) means an operation takes roughly the same amount of work, while O(n) means the amount of work increases with the number of records.
-
-We used the following variables:
-
-- F = Number of facilities.
-- V = Number of buildings.
-- E = Number of connections.
-- D = Number of departments.
-- C = Number of different facility categories.
-
-### Hash Table and Facilities
+C = Number of facility categories
 
 | Operation | Time Complexity |
 |---|---|
-| Search by ID | O(1) average with short chains, O(F) worst case |
-| Hash table insertion | O(1) average with short chains, O(F) worst case |
-| Display all facilities | O(F) |
-| Search by name | O(F) |
-| Search by category | O(F) |
-| Category report | O(F * C) |
-
-Searching by ID is usually faster because the hash table tells us which bucket to check.
-
-Searching by name or category takes longer as more facilities are added because the program checks each facility.
-
-The category report checks the existing categories for every facility. If every facility has a different category, the worst-case time complexity becomes O(F²).
-
-Since our hash table has a fixed number of buckets, searching may become slower if the chains grow longer.
-
-### Campus Graph
-
-| Operation | Time Complexity |
-|---|---|
-| Find building by name | O(V) |
-| Display graph | O(V + E) |
-| Display building degrees | O(V) |
+| Facility ID search | O(1) average with short chains, O(F) worst case |
+| Facility name/category search | O(F) |
+| Facility category report | O(F × C) |
 | BFS reachability | O(V + E) |
 | Shortest path | O(V + E) |
-| Connectivity report | O(V + E) |
-
-BFS checks each reachable building and its connections. As the number of buildings and connections increases, the program has more information to process.
-
-### Department Tree
-
-| Operation | Time Complexity |
-|---|---|
-| Add department | O(D) |
-| Search department | O(D) |
-| Display hierarchy | O(D) node visits |
-| Preorder traversal | O(D) |
-| Postorder traversal | O(D) |
-| Level-order traversal | O(D) |
+| Graph connectivity report | O(V + E) |
+| Department addition and search | O(D) |
+| Department traversals | O(D) |
 | Department statistics | O(D) |
-| Delete the tree | O(D) |
+| Department tree deletion | O(D) |
 
-Adding a department requires checking for duplicate names and finding its parent.
+The category report can take O(F²) time in the worst case. Hash table searches may become slower as the chains grow because the capacity is fixed.
 
-The traversals visit every department. The statistics functions also check the departments to calculate their results.
+These calculations assume constant-time name comparisons.
 
-These calculations assume that comparing names takes constant time. Displaying the hierarchy may take extra time depending on the amount of indentation needed.
+## 7. TEAM CONTRIBUTIONS AND TESTING
 
-## 8. TESTING AND ERROR HANDLING
+Urisha worked on facility management and the custom hash table. Franklin worked on the campus graph, BFS, shortest path and connectivity report. Samriddi worked on the department tree, traversals, department statistics and documentation.
 
-We tested our program with normal data as well as data that contained mistakes. We wanted to see how the program would behave when users entered incorrect information or when some files were missing.
+All members contributed to integration, testing and debugging.
 
-Some of the things we tested were:
-
-- Duplicate and invalid facility IDs.
-- Hash table collisions.
-- Facility searches with different capitalization.
-- Buildings that are not connected.
-- Shortest paths with equal numbers of connections.
-- Empty department trees.
-- Trees with only one department.
-- Different department statistics.
-- Missing files and incorrect records.
-- Invalid user inputs.
-
-All completed tests passed successfully. The tested features worked as expected.
-
-We recorded the expected outputs, actual outputs and results in test_results.txt.
-
-## 9. FINAL DESIGN SUMMARY
-
-We continued working with the same three main data structures from Milestone 1: a hash table, a graph and a general tree.
-
-For the Final, we added more search options, shortest paths, tree traversals, statistics and reports.
-
-Keeping the different parts of the program in separate classes helped us work on our own responsibilities without making unnecessary changes to each other's code.
-
-Through this project, we learned how different data structures can work together in one program and how they can be used to solve everyday problems.
+We tested normal data, invalid records, missing files, empty structures and different user inputs. Detailed testing results are recorded in test_results.txt, and individual contributions and reflections are recorded in CONTRIBUTIONS.txt.
