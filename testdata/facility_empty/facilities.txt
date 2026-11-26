@@ -1,1 +1,2 @@
+# FacilityID|FacilityName|BuildingName|Category
 # Empty facility dataset for testing the category report.
