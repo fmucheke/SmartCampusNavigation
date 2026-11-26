@@ -1,1 +1,1 @@
-
+# Empty facility dataset for testing the category report.
