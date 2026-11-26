@@ -561,6 +561,114 @@ I tested the Facility Management and Hash Table components using Visual Studio C
 
 The collision test correctly reported 3 accepted facilities, 2 rejected facilities, and 1 hash collision. The missing-file test also passed, displaying zero accepted and rejected facilities and an empty hash table.
 
+# FINAL SUBMISSION - Facility Management (Member A: Urisha Shrestha)
+
+Environment: macOS, Terminal, C++17
+
+Test 18  
+Description: Check facility name search with multiple matches.  
+Input: ./smartcampus, option 3, Room 101.  
+Expected: Facilities F005 and F007 displayed with 2 matches.  
+Actual: Both facilities displayed correctly. Matches: 2.  
+Result: PASS
+
+Test 19  
+Description: Check case-insensitive facility name search.  
+Input: ./smartcampus, option 3, room 101.  
+Expected: Same two facilities displayed regardless of capitalization.  
+Actual: Facilities F005 and F007 displayed. Matches: 2.  
+Result: PASS
+
+Test 20  
+Description: Check search for a nonexistent facility name.  
+Input: ./smartcampus, option 3, Unknown Room.  
+Expected: No facilities found and zero matches.  
+Actual: No facilities found with that name. Matches: 0.  
+Result: PASS
+
+Test 21  
+Description: Check blank facility name input.  
+Input: ./smartcampus, option 3, blank input.  
+Expected: Error message displayed and program returns to the main menu.  
+Actual: Error: Facility name cannot be blank.  
+Result: PASS
+
+Test 22  
+Description: Check facility search by category using sample data.  
+Input: ./smartcampus, option 4, Classroom.  
+Expected: Facilities F005, F007, and F009 displayed with 3 matches.  
+Actual: All three facilities displayed correctly. Matches: 3.  
+Result: PASS
+
+Test 23  
+Description: Check case-insensitive facility category search.  
+Input: ./smartcampus, option 4, classroom.  
+Expected: Same three facilities displayed regardless of capitalization.  
+Actual: Facilities F005, F007, and F009 displayed. Matches: 3.  
+Result: PASS
+
+Test 24  
+Description: Check search for a nonexistent facility category.  
+Input: ./smartcampus, option 4, Unknown Category.  
+Expected: No facilities found and zero matches.  
+Actual: No facilities found in that category. Matches: 0.  
+Result: PASS
+
+Test 25  
+Description: Check blank facility category input.  
+Input: ./smartcampus, option 4, blank input.  
+Expected: Error message displayed and program returns to the main menu.  
+Actual: Error: Category cannot be blank.  
+Result: PASS
+
+Test 26  
+Description: Check facility category report using sample data.  
+Input: ./smartcampus, option 16.  
+Expected: Correct facility counts and percentages for each category, with 10 total facilities and 100.0%.  
+Actual:  
+Library: 2, 20.0%  
+Tutoring Center: 1, 10.0%  
+Student Services Office: 1, 10.0%  
+Computer Lab: 2, 20.0%  
+Classroom: 3, 30.0%  
+Recreation: 1, 10.0%  
+Total: 10, 100.0%  
+Result: PASS
+
+Test 27  
+Description: Check facility category report with mixed capitalization.  
+Input: ./smartcampus testdata/facility_mixed, option 16.  
+Test Data: Five facilities with categories Classroom, classroom, CLASSROOM, Library, and library.  
+Expected: Categories grouped regardless of capitalization, with Classroom: 3 (60.0%), Library: 2 (40.0%), and Total: 5 (100.0%). The first accepted category spelling should be preserved.  
+Actual: Categories with different capitalizations were grouped correctly, and the first accepted category spelling was preserved. The counts and percentages matched the expected results.  
+Classroom: 3, 60.0%  
+Library: 2, 40.0%  
+Total: 5, 100.0%  
+Result: PASS
+
+Test 28  
+Description: Check facility category report when there are no facilities.  
+Input: ./smartcampus testdata/facility_empty, option 16.  
+Test Data: facilities.txt containing only comments and no facility records.  
+Expected: No facilities available message, zero total facilities, and no division-by-zero errors.  
+Actual: The program displayed "No facilities available for report." and "Total facilities: 0". The program returned to the main menu without crashing.  
+Result: PASS
+
+Test 29  
+Description: Verify that Milestone 1 facility features still work with the Final menu.  
+Input: ./smartcampus, option 1 and option 2 with F001, f001, and F999.  
+Expected: All 10 facilities displayed, successful ID searches regardless of capitalization, and an appropriate message for a nonexistent facility ID.  
+Actual: All 10 facilities were displayed correctly. Both F001 and f001 returned Main Reading Room. Searching for F999 displayed "Facility F999 not found."  
+Result: PASS
+
+# FINAL TEST SUMMARY - MEMBER A
+
+Total Final Tests: 12  
+Passed: 12  
+Failed: 0
+
+All assigned Final facility features were tested successfully. Facility name search, category search, and category reports worked as expected. Mixed capitalization, blank inputs, nonexistent records, and empty facility data were handled correctly. I created two additional test datasets, facility_mixed and facility_empty, and uploaded them to GitHub under the testdata folder. Both datasets were downloaded from GitHub and tested again successfully using the updated project. The original Milestone 1 facility features also continued to work with the Final menu. The project compiled and ran successfully on macOS using C++17.
+
 
 FINAL SUBMISSION - Department Tree (Member C: Samriddi Upreti)
 ================================================================
