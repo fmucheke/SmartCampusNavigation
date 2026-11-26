@@ -15,7 +15,10 @@ My main responsibilities for this project were Facility Management and Hash Tabl
 For the final submission, I completed my assigned features, which included searching facilities by name and category and generating a facility category report. I updated the search functions to display all matching facilities regardless of capitalization and show the total number of matches. I also updated the category report to display the number of facilities in each category, their percentages and the overall total.
 
 Final Progress and Testing:
-After completing my assigned features, I tested each function individually and through the updated main menu using options 3, 4, and 16. I tested different inputs, including lowercase letters, multiple matches, nonexistent names and categories, and blank inputs. I also verified that the category report displayed the correct counts and percentages. All seven individual tests and nine menu integration tests passed successfully. Finally, I compiled and ran the updated project on my local machine to make sure all my assigned features were working correctly.
+After completing my assigned features, I tested each function individually and through the updated main menu using options 3, 4 and 16. I tested different inputs, including lowercase letters, multiple matches, nonexistent names and categories and blank inputs. I also tested the category report using mixed capitalization and an empty facility dataset. All 12 documented final tests passed successfully. Finally, I compiled and ran the updated project on my local machine to make sure all my assigned features were working correctly.
+
+Individual Reflection:
+Through this project, I learned how to implement hash tables and linear searches in a practical C++ program. One of the challenges I faced was handling invalid facility records and making sure the search functions worked correctly with different inputs. I also learned the importance of testing different scenarios, including empty datasets and mixed capitalization. Working on this project helped me improve my debugging, GitHub, and teamwork skills. Overall, I feel more confident working with data structures in C++.
 
 Member B – Franklin Mucheke
 Assigned Modules:
