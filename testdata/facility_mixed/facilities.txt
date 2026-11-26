@@ -1,0 +1,6 @@
+# FacilityID|FacilityName|BuildingName|Category
+F001|Room 101|Engineering Building|Classroom
+F002|Room 102|Engineering Building|classroom
+F003|Room 103|Business Building|CLASSROOM
+F004|Reading Room|Library|Library
+F005|Research Room|Library|library
