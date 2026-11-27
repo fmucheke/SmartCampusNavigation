@@ -321,6 +321,14 @@ Test 23: Graph Connectivity Report — Empty Graph (RPT-2)
 -Actual: Total buildings: 0, Total connections: 0, There are no loaded buildings.
 -Result: PASS
 
+Final Test: Valgrind Memory Management (NFR-11)
+
+-Environment: Ubuntu (WSL), Valgrind 3.26.0.
+-Input: Run the integrated program using valgrind --leak-check=full --show-leak-kinds=all /tmp/campus-valgrind, then exit normally using menu option 18.
+-Expected: No memory leaks or invalid memory accesses.
+-Actual: 456 allocations, 456 frees; 0 bytes in use at exit. All heap blocks freed. Valgrind reported 0 errors.
+-Result: PASS
+
 ## Facility Management and Hash Table – Member A: Urisha Shrestha
 
 **Environment:** macOS, Visual Studio Code Terminal, GCC C++17

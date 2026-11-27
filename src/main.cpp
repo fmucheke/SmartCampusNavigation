@@ -251,7 +251,7 @@ int main(int argc, char* argv[]) {
 
                 break;
             }
-
+            // Shortest path
             case 8:{
                 string start;
                 string destination;
@@ -317,11 +317,11 @@ int main(int argc, char* argv[]) {
             case 16:
                 facilityManager.categoryReport();
                 break;
-
+            // Displaying graph connectivity report
             case 17:
                 graph.ConnectivityReport();
                 break;
-
+            //Exiting Program
             case 18:
                 cout << "Exiting program...\n";
                 break;

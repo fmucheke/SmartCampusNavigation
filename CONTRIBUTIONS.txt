@@ -26,6 +26,13 @@ Assigned Modules:
 - Campus graph
 - Graph loader
 - BFS reachability
+- BFS shortest path search
+- Graph connectivity report
+
+Individual Reflection:
+
+This project helped me to build an understanding on practical application of graphs and BFS. A challenge that I faced was figuring out how to perform shortest path searches in a way that respects neighbor insertion order which was relevant when multiple routes had the same length. While implementing the graph connectivity report, I fixed an issue where the program continued calculating the highest degree even when no buildings were loaded, by adding an early return. I also explored how the graph functionality interacted with the main menu which sharpened my integration testing skill. The project also helped me to be more comfortable working collaboratively on GitHub.
+
 
 Member C – Samriddi Upreti
 Assigned Modules:
