@@ -1,3 +1,6 @@
+// File: FileUtils.h
+// Author: Franklin Mucheke
+// Purpose: Declares shared string trimming and uppercase normalization functions.
 #ifndef FILEUTILS_H
 #define FILEUTILS_H
 
