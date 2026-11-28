@@ -167,7 +167,7 @@ Actual:      "Error: Cannot open testdata/nofolder/departments.txt"
              Option 10: Program exited normally.
 Result:      PASS
 
- Milestone 1 - Graph and BFS Testing — Member B: Franklin Mucheke
+ Milestone 1 & Final- Graph and BFS Testing — Member B: Franklin Mucheke
 
 Environment: Windows, VS Code PowerShell, GCC C++17
 
