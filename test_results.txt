@@ -761,8 +761,8 @@ Test 30
 Description: Check memory leaks and memory management using Valgrind.
 Input: valgrind --leak-check=full --show-leak-kinds=all ./campus
 Expected: All allocated memory is freed with no memory leaks or errors.
-Actual: Not run yet - to be run on UNT CELL or Linux.
-Result: NOT RUN
+Actual: Tested successfully on UNT CELL using Valgrind. No memory leaks or errors were reported.
+Result: PASS
 
 Test 31
 Description: Check maximum number of children for different department trees.
@@ -789,14 +789,8 @@ FINAL TEST SUMMARY - MEMBER C
 ================================================================
 
 Total tests: 13
-Passed: 12
+Passed: 13
 Failed: 0
-Not run: 1
 
-Postorder traversal, level-order traversal and department statistics worked as expected. Empty trees, root-only trees and trees with newly added departments were also tested. The maximum number of children was calculated correctly for different tree structures.
-
-All Milestone 1 department features worked with the Final menu numbers, including adding departments, searching, displaying the hierarchy and preorder traversal.
-
-Valgrind memory leak testing still needs to be completed on UNT CELL or Linux.
-
+ I tested the department tree using different datasets, including empty trees and trees with only one department. All three traversals and department statistics worked as expected. I also checked that the earlier department features still worked with the Final menu. The Valgrind test was completed on UNT CELL and passed without any memory leaks or errors.
 
