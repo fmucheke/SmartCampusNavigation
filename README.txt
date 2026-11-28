@@ -1,7 +1,9 @@
-# Smart Campus Navigation and Facility Analytics System
+SMART CAMPUS NAVIGATION AND FACILITY ANALYTICS SYSTEM
+
+GitHub Repository:
+https://github.com/fmucheke/SmartCampusNavigation
 
 ## About Our Project
-
 This is a C++ project that helps people find facilities on a college campus. It also shows how buildings are connected, finds the shortest path between buildings and displays how different departments are organized.
 
 We made this project to learn more about data structures, problem-solving and working together as a team.
