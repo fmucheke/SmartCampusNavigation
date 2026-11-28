@@ -329,6 +329,17 @@ Final Test: Valgrind Memory Management (NFR-11)
 -Actual: 456 allocations, 456 frees; 0 bytes in use at exit. All heap blocks freed. Valgrind reported 0 errors.
 -Result: PASS
 
+Final Integrated Test: UNT CELL (NFR-7)
+
+-Environment: UNT CELL Linux (cell07-cse), GCC C++17.
+-Compilation command: g++ -std=c++17 -Wall -Wextra -Iinclude src/*.cpp -o campus
+-Execution command: ./campus
+-Input: Default dataset; menu option 8 (library to gym), option 17 (connectivity report), and option 18 (exit).
+-Expected: Successful compilation and loading of all four files. Shortest path Library → Student Union → Gym with 2 connections. Connectivity report showing 7 buildings, 6 connections, Student Union with highest degree 3, Observatory isolated, and 2 connected components. Program exits normally.
+-Actual: Compilation successful. All four files loaded with zero rejected records. Option 8 displayed Library → Student Union → Gym with 2 connections. Option 17 reported 7 buildings, 6 connections, Student Union with degree 3, Observatory isolated, and 2 connected components. Option 18 exited normally.
+
+Result: PASS
+
 ## Facility Management and Hash Table – Member A: Urisha Shrestha
 
 **Environment:** macOS, Visual Studio Code Terminal, GCC C++17
